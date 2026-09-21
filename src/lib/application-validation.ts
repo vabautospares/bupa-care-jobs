@@ -36,7 +36,6 @@ const stringFields: (keyof ApplicationFormData)[] = [
   "phone",
   "whatsapp",
   "country",
-  "role",
   "preferredLocation",
   "workType",
   "employmentPreference",
@@ -53,6 +52,10 @@ export function validateApplicationFormData(data: ApplicationFormData): { data?:
     if (!value?.trim()) {
       errors[field] = "This field is required.";
     }
+  }
+
+  if (!data.role?.trim()) {
+    errors.role = "Select a role.";
   }
 
   if (data.email && !emailRegex.test(data.email)) {

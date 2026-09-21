@@ -2,7 +2,7 @@ import type { ContactConfig } from "@/lib/types";
 
 export function getContactConfig(): ContactConfig {
   const whatsappNumber = process.env.WHATSAPP_NUMBER?.trim();
-  const whatsappUsername = process.env.WHATSAPP_USERNAME?.trim() || "bravi451";
+  const whatsappUsername = process.env.WHATSAPP_USERNAME?.trim() || "bupacareers";
   const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
 
   if (!email) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import { useState, useEffect, useCallback, useRef, FormEvent, ChangeEvent } from "react";
 import { Button } from "@/components/button";
 import { TextField } from "@/components/text-field";
 import { TextAreaField } from "@/components/text-area-field";
@@ -13,6 +13,8 @@ import { validateApplicationFormData, type ApplicationFormData, type Application
 import Link from "next/link";
 
 const employmentPreferenceOptions = ["Full-time", "Part-time", "Flexible"] as const;
+
+type Opportunity = { title: string };
 
 const formatPounds = (pence: number) =>
   new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 }).format(pence / 100);
@@ -29,6 +31,8 @@ export function ApplicationForm() {
   const router = useRouter();
   const initialRole = searchParams.get("role") ?? "";
   const [workTypeOptions, setWorkTypeOptions] = useState<string[]>([]);
+  const [opportunityTitles, setOpportunityTitles] = useState<string[]>([]);
+  const [opportunitiesError, setOpportunitiesError] = useState<string | null>(null);
 
   // Fetch work type options from the opportunities API
   useEffect(() => {
@@ -46,6 +50,26 @@ export function ApplicationForm() {
       });
   }, []);
 
+  // Fetch opportunity titles for the role dropdown
+  useEffect(() => {
+    fetch("/api/opportunities")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch opportunities");
+        return res.json();
+      })
+      .then((data: { opportunities?: Opportunity[] }) => {
+        if (data.opportunities && Array.isArray(data.opportunities)) {
+          const titles = [...new Set(data.opportunities.map((o) => o.title).filter(Boolean))];
+          setOpportunityTitles(titles);
+        } else {
+          setOpportunitiesError("No roles currently available. Please try again later.");
+        }
+      })
+      .catch(() => {
+        setOpportunitiesError("Unable to load roles. Please try again later.");
+      });
+  }, []);
+
   const [formData, setFormData] = useState<ApplicationFormData>({
     fullName: "",
     email: "",
@@ -53,7 +77,7 @@ export function ApplicationForm() {
     whatsapp: "",
     country: "",
     ukLocation: "",
-    role: initialRole,
+    role: "",
     preferredLocation: "",
     workType: "",
     employmentPreference: "",
@@ -70,7 +94,9 @@ export function ApplicationForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [serverMessage, setServerMessage] = useState<string>("");
 
-  const updateField = <K extends keyof ApplicationFormData>(name: K, value: ApplicationFormData[K]) => {
+  const rolePreSelectedRef = useRef(false);
+
+  const updateField = useCallback(<K extends keyof ApplicationFormData>(name: K, value: ApplicationFormData[K]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
       setErrors((prev) => {
@@ -79,7 +105,15 @@ export function ApplicationForm() {
         return next;
       });
     }
-  };
+  }, [errors]);
+
+  // Pre-select role from URL param when opportunities are loaded
+  useEffect(() => {
+    if (!rolePreSelectedRef.current && initialRole && opportunityTitles.length > 0 && opportunityTitles.includes(initialRole)) {
+      rolePreSelectedRef.current = true;
+      updateField("role", initialRole);
+    }
+  }, [initialRole, opportunityTitles, updateField]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = event.target;
@@ -270,6 +304,29 @@ export function ApplicationForm() {
               ))}
             </select>
             {errors.workType && <p id="workType-error" role="alert" className="text-sm font-semibold text-[var(--color-danger)]">{errors.workType}</p>}
+          </div>
+          <div>
+            <label htmlFor="role" className="label">
+              Role <span aria-hidden="true" className="ml-1 text-[var(--color-danger)]">*</span>
+            </label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              className={`input ${errors.role ? "input-error" : ""}`}
+              aria-invalid={Boolean(errors.role)}
+              aria-describedby={errors.role ? "role-error" : undefined}
+              required
+              disabled={opportunityTitles.length === 0}
+            >
+              <option value="">Select a role</option>
+              {opportunityTitles.map((title) => (
+                <option key={title} value={title}>{title}</option>
+              ))}
+            </select>
+            {errors.role && <p id="role-error" role="alert" className="text-sm font-semibold text-[var(--color-danger)]">{errors.role}</p>}
+            {opportunitiesError && <p role="alert" className="text-sm font-semibold text-[var(--color-danger)]">{opportunitiesError}</p>}
           </div>
           <div>
             <label htmlFor="employmentPreference" className="label">
