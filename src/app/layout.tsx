@@ -7,6 +7,7 @@ import { PageShell } from "@/components/page-shell";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const ogImageUrl = `${siteUrl.replace("http:", "https:")}/bupalogo.png`;
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
     locale: "en_GB",
     images: [
       {
-        url: "/bupalogo.png",
+        url: ogImageUrl,
+        secureUrl: ogImageUrl,
         width: 1200,
         height: 630,
         alt: "Bupa Care Jobs",
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Bupa Care Jobs",
     description: "Find care jobs and start your application with Bupa Care Jobs.",
-    images: ["/bupalogo.png"],
+    images: [ogImageUrl],
   },
 };
 
