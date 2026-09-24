@@ -82,7 +82,7 @@ export default function CareCareersPage() {
               "Review the opportunity details.",
               "Start your application.",
               "Complete your personal, employment and experience details.",
-              "Choose your plan.",
+              "Choose your recruitment support term.",
               "Review and accept the Terms & Conditions.",
               "Submit your application.",
               "Follow the guidance provided after submission.",
@@ -97,7 +97,7 @@ export default function CareCareersPage() {
           </ol>
           <div className="mt-6 card p-4 border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]">
             <p className="text-sm text-[var(--color-warning)]">
-              Payment has not been completed on the website. Our team will guide you through the next steps, including payment.
+              A deposit of £1,000 is due before application review. The remaining balance is payable in agreed instalments after employment starts. Payment is not completed on the website. Our team will guide you through the next steps, including payment.
             </p>
           </div>
         </div>

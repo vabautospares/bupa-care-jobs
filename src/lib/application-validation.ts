@@ -79,9 +79,9 @@ export function validateApplicationFormData(data: ApplicationFormData): { data?:
   }
 
   if (!data.selectedPlan) {
-    errors.selectedPlan = "Select a service plan.";
+    errors.selectedPlan = "Select a recruitment support term.";
   } else if (!SERVICE_PLANS.some((p) => p.id === data.selectedPlan)) {
-    errors.selectedPlan = "Invalid service plan.";
+    errors.selectedPlan = "Invalid recruitment support term.";
   }
 
   if (!data.termsAccepted) {

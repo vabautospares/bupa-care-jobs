@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     cvReference: "",
     certificateReferences: [],
     selectedPlan: result.data!.selectedPlan,
-    initialPaymentPence: plan.initialPaymentPence,
+    initialPaymentPence: plan.depositPence,
     termsVersion,
     termsAccepted: true,
     termsAcceptedAt: submittedAt,

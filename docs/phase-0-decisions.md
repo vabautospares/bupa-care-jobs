@@ -18,7 +18,7 @@ Phase 0 decisions are recorded on 2026-09-17. Implementation decisions are appro
 | Care Careers route | Separate page, not the homepage | Approved |
 | Application order | Form → select plan → review Terms → accept Terms → submit → save to Sheets → confirmation → WhatsApp | Approved |
 | Legal content | Dedicated editable content modules with clearly marked placeholders until approved | Approved |
-| Payments | No payment processing in version 1 | Confirmed by source documents |
+| Payments | Payment link (Paystack) on confirmation page — approved | Approved |
 | Sponsorship and accounts | No sponsorship, employer portal, applicant portal, CMS, or complex database in version 1 | Confirmed by source documents |
 
 ## Configuration boundaries

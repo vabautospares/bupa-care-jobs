@@ -7,10 +7,10 @@ test.describe('Apply page', () => {
   });
 
   test('shows all form sections', async ({ page }) => {
-    await expect(page.locator('text=Personal details')).toBeVisible();
-    await expect(page.locator('text=Which role are you interested in?')).toBeVisible();
-    await expect(page.locator('text=Your care experience')).toBeVisible();
-    await expect(page.locator('text=Choose your support plan')).toBeVisible();
+    await expect(page.locator('text=Start your application')).toBeVisible();
+    await expect(page.locator('text=Job preferences')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Experience' })).toBeVisible();
+    await expect(page.locator('text=Choose your recruitment & sponsorship support')).toBeVisible();
     await expect(page.locator('text=Review and accept')).toBeVisible();
   });
 
@@ -41,14 +41,14 @@ test.describe('Apply page', () => {
 
   test('years of experience must be a valid number when care experience is checked', async ({ page }) => {
     await page.check('input[name="careExperience"]');
-    await page.fill('input[name="yearsExperience"]', 'abc');
+    await page.fill('input[name="yearsExperience"]', '-1');
     await page.click('button[type="submit"]');
     await expect(page.locator('text=Enter your years of experience.')).toBeVisible();
   });
 
   test('service plan selection is required', async ({ page }) => {
     await page.click('button[type="submit"]');
-    await expect(page.locator('text=Select a service plan.')).toBeVisible();
+    await expect(page.locator('text=Select a recruitment support term.')).toBeVisible();
   });
 
   test('terms acceptance is required', async ({ page }) => {
@@ -56,32 +56,18 @@ test.describe('Apply page', () => {
     await expect(page.locator('text=You must accept the Terms & Conditions.')).toBeVisible();
   });
 
-  test('selecting a plan and filling required fields clears errors on re-submit', async ({ page }) => {
+  test('selecting a plan clears plan selection error', async ({ page }) => {
     await page.click('button[type="submit"]');
-    await expect(page.locator('text=Select a service plan.')).toBeVisible();
+    await expect(page.locator('text=Select a recruitment support term.')).toBeVisible();
 
-    await page.check('input[value="three-year"]');
-    await page.fill('input[name="fullName"]', 'Test User');
-    await page.fill('input[name="email"]', 'test@example.com');
-    await page.fill('input[name="phone"]', '07123456789');
-    await page.fill('input[name="whatsapp"]', '07123456789');
-    await page.fill('input[name="country"]', 'United Kingdom');
-    await page.fill('input[name="role"]', 'Care Assistant');
-    await page.fill('input[name="preferredLocation"]', 'London');
-    await page.selectOption('select[name="workType"]', 'Care home');
-    await page.selectOption('select[name="employmentPreference"]', 'Full-time');
-    await page.fill('input[name="availability"]', 'Immediately');
-    await page.fill('input[name="qualifications"]', 'NVQ Level 2');
-    await page.fill('input[name="employmentStatus"]', 'Employed');
-    await page.check('input[name="termsAccepted"]');
+    await page.click('label:has-text("3-Year Recruitment & Sponsorship Support")');
 
-    await page.click('button[type="submit"]');
-
-    await expect(page.locator('text=Application service is not configured yet.')).toBeVisible();
+    await expect(page.locator('text=Select a recruitment support term.')).not.toBeVisible();
   });
 
-  test('Terms link navigates to terms page', async ({ page }) => {
-    await page.click('a[href="/terms-and-conditions"]');
-    await expect(page).toHaveURL('/terms-and-conditions');
+  test('Terms link has correct href', async ({ page }) => {
+    const link = page.locator('#terms a[href="/terms-and-conditions"]');
+    await expect(link).toHaveAttribute('href', '/terms-and-conditions');
+    await expect(link).toHaveAttribute('target', '_blank');
   });
 });

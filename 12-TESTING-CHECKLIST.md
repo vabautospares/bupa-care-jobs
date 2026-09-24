@@ -47,6 +47,15 @@
 - [ ] No unnecessary sensitive data is included
 - [ ] Fallback contact route works
 
+## Payment
+- [ ] PAYSTACK_PAYMENT_URL is set in .env and resolved by getPaymentUrl()
+- [ ] Confirmation page shows "Pay £1,000 now" button linking to Paystack URL
+- [ ] Button opens Paystack in a new tab
+- [ ] Unsetting PAYSTACK_PAYMENT_URL falls back to warning alert
+- [ ] WhatsApp follow-up section still renders below payment card
+- [ ] Plan details (initial payment £1,000, total plan cost) still display correctly
+- [ ] No exposed credentials or secret keys in client bundle
+
 ## Accessibility
 - [ ] Keyboard navigation
 - [ ] Visible focus

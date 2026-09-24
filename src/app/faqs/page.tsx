@@ -26,7 +26,7 @@ export default function FaqsPage() {
     {
       question: "How do I apply for a job?",
       answer:
-        "Select an opportunity you are interested in, review the job details and select **Apply for this job**. Complete the application form, choose your plan, review the Terms & Conditions and submit your application.",
+        "Select an opportunity you are interested in, review the job details and select **Apply for this job**. Complete the application form, choose your recruitment support term, review the Terms & Conditions and submit your application.",
     },
     {
       question: "What information do I need to provide?",
@@ -39,9 +39,9 @@ export default function FaqsPage() {
         "Supporting documents are not uploaded during the current application process. Supporting documents may be requested later.",
     },
     {
-      question: "What plans are available?",
+      question: "What recruitment and sponsorship support terms are available?",
       answer:
-        "There are currently two plans:\n\n**3 Years:** £4,000 total, with an initial payment of £1,000.\n\n**5 Years:** £6,000 total, with an initial payment of £1,000.\n\nThe remaining balance depends on the plan selected.",
+        "Two recruitment and sponsorship support terms are available:\n\n**3-Year Recruitment & Sponsorship Support: £4,000 total company service fee**\n\n* Deposit (due before application review): £1,000\n* Remaining balance (instalments after employment starts): £3,000\n\n**5-Year Recruitment & Sponsorship Support: £6,000 total company service fee**\n\n* Deposit (due before application review): £1,000\n* Remaining balance (instalments after employment starts): £5,000\n\nThe company service fee covers recruitment coordination and Certificate of Sponsorship administration. UK government and third-party immigration costs are quoted separately before payment.\n\nA Certificate of Sponsorship does not guarantee employment or visa approval.",
     },
     {
       question: "Is payment completed on the website?",
@@ -51,12 +51,12 @@ export default function FaqsPage() {
     {
       question: "What happens after I submit my application?",
       answer:
-        "You will receive a confirmation showing your application ID and selected plan. You can then follow up with our team on WhatsApp for guidance on the next steps.",
+        "You will receive a confirmation showing your application ID and selected support term. You can then follow up with our team on WhatsApp for guidance on the next steps.",
     },
     {
       question: "Can I contact the team if I need help?",
       answer:
-        "Yes. You can contact our team through WhatsApp for help with your application, the application process, your application details, plan information or next steps after submitting an application. If you have already submitted an application, please have your application ID available when contacting our team.",
+        "Yes. You can contact our team through WhatsApp for help with your application, the application process, your application details, support term information or next steps after submitting an application. If you have already submitted an application, please have your application ID available when contacting our team.",
     },
   ];
 

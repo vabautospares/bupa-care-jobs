@@ -19,3 +19,7 @@ export function getContactConfig(): ContactConfig {
 export function getTermsVersion(): string {
   return process.env.TERMS_VERSION?.trim() || "0.1-placeholder";
 }
+
+export function getPaymentUrl(): string | null {
+  return process.env.PAYSTACK_PAYMENT_URL?.trim() || null;
+}

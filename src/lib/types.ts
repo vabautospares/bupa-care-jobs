@@ -3,9 +3,14 @@ export type ServicePlanId = "three-year" | "five-year";
 export interface ServicePlan {
   id: ServicePlanId;
   label: string;
+  supportTerm: string;
   durationYears: 3 | 5;
   pricePence: 400000 | 600000;
-  initialPaymentPence: 100000;
+  depositPence: 100000;
+  balancePence: 300000 | 500000;
+  inclusions: string[];
+  externalCostsNote: string;
+  noGuaranteeNote: string;
 }
 
 export interface Opportunity {

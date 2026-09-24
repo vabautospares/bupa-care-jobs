@@ -21,7 +21,9 @@ const formatPounds = (pence: number) =>
 
 const steps = [
   { label: "Your details", href: "#personal-details" },
-  { label: "Choose a plan", href: "#service-plan" },
+  { label: "Job preferences", href: "#job-preferences" },
+  { label: "Experience", href: "#experience" },
+  { label: "Recruitment support", href: "#service-plan" },
   { label: "Review terms", href: "#terms" },
   { label: "Submit", href: "#submit" },
 ] as const;
@@ -197,13 +199,13 @@ export function ApplicationForm() {
           ))}
         </ol>
         <p className="mt-3 text-sm text-[var(--color-muted)] text-center sm:text-left">
-          Step 1 of 4: Your details
+          Step 1 of 6: Your details
         </p>
       </nav>
 
       <div id="personal-details">
         <SectionHeading
-          eyebrow="Step 1 of 4"
+          eyebrow="Step 1 of 6"
           title="Start your application"
           description="Complete your application with your personal, experience and employment details."
         />
@@ -272,7 +274,7 @@ export function ApplicationForm() {
       </div>
 
       <div id="job-preferences">
-        <SectionHeading eyebrow="Step 2 of 4" title="Job preferences" />
+        <SectionHeading eyebrow="Step 2 of 6" title="Job preferences" />
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           <TextField
             id="preferredLocation"
@@ -363,7 +365,7 @@ export function ApplicationForm() {
       </div>
 
       <div id="experience">
-        <SectionHeading eyebrow="Step 3 of 4" title="Experience" />
+        <SectionHeading eyebrow="Step 3 of 6" title="Experience" />
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           <CheckboxField
             id="careExperience"
@@ -411,12 +413,10 @@ export function ApplicationForm() {
       </div>
 
       <div id="service-plan">
-        <SectionHeading eyebrow="Step 3 of 4" title="Choose your support plan" description="Select the plan that best fits your care-career journey." />
-        <div className="mt-8 grid gap-6 lg:grid-cols-2" role="radiogroup" aria-label="Select a service plan">
+        <SectionHeading eyebrow="Step 4 of 6" title="Choose your recruitment & sponsorship support" description="Select the support term for recruitment coordination and Certificate of Sponsorship administration." />
+        <div className="mt-8 grid gap-6 lg:grid-cols-2" role="radiogroup" aria-label="Select a recruitment and sponsorship support term">
           {SERVICE_PLANS.map((plan) => {
-            const isPopular = plan.id === "three-year";
             const isSelected = formData.selectedPlan === plan.id;
-            const remainingPence = plan.pricePence - plan.initialPaymentPence;
             return (
               <label
                 key={plan.id}
@@ -426,11 +426,6 @@ export function ApplicationForm() {
                     : "border-[var(--color-border)] hover:border-[var(--color-accent)]"
                 }`}
               >
-                {isPopular && (
-                  <span className="absolute -top-3 left-4 rounded-sm bg-[var(--color-accent)] px-3 py-0.5 text-xs font-bold text-[var(--color-accent-contrast)]">
-                    Popular
-                  </span>
-                )}
                 <input
                   type="radio"
                   id={`plan-${plan.id}`}
@@ -459,20 +454,29 @@ export function ApplicationForm() {
                   <h3 className="text-xl font-bold text-[var(--color-foreground)]">{plan.label}</h3>
                   <div className="mt-4 space-y-3 pt-4 border-t border-[var(--color-border)]">
                     <div className="flex justify-between text-sm">
-                      <span className="text-[var(--color-muted)]">Initial payment</span>
-                      <span className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.initialPaymentPence)}</span>
+                      <span className="text-[var(--color-muted)]">Deposit (due before application review)</span>
+                      <span className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.depositPence)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-[var(--color-muted)]">Remaining</span>
-                      <span className="font-semibold text-[var(--color-foreground)]">{formatPounds(remainingPence)}</span>
+                      <span className="text-[var(--color-muted)]">Remaining balance (instalments after employment starts)</span>
+                      <span className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.balancePence)}</span>
                     </div>
                     <div className="flex justify-between text-base font-bold pt-2 border-t border-[var(--color-border)]">
-                      <span className="text-[var(--color-foreground)]">Total</span>
+                      <span className="text-[var(--color-foreground)]">Total company service fee</span>
                       <span className="text-[var(--color-accent)]">{formatPounds(plan.pricePence)}</span>
                     </div>
                   </div>
+                  <ul className="mt-4 space-y-1.5 text-sm text-[var(--color-muted)]" role="list">
+                    {plan.inclusions.map((inclusion, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span aria-hidden="true" className="flex-shrink-0 h-1.5 w-1.5 mt-1.5 rounded-full bg-[var(--color-accent)]" />
+                        {inclusion}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-3 text-xs text-[var(--color-muted)]">{plan.externalCostsNote}</p>
+                  <p className="mt-2 text-xs text-[var(--color-danger)] font-medium">{plan.noGuaranteeNote}</p>
                 </div>
-                <p className="mt-4 leading-7 text-sm text-[var(--color-muted)]">A clear service plan for the next stage of your care-career journey.</p>
               </label>
             );
           })}
@@ -483,7 +487,7 @@ export function ApplicationForm() {
       </div>
 
       <div id="terms">
-        <SectionHeading eyebrow="Step 4 of 4" title="Review and accept terms" />
+        <SectionHeading eyebrow="Step 5 of 6" title="Review and accept terms" />
         <div className="mt-8">
           <div className="card p-6">
             <CheckboxField
@@ -513,7 +517,7 @@ export function ApplicationForm() {
       </div>
 
       <div id="submit">
-        <SectionHeading eyebrow="Step 4 of 4" title="Submit your application" />
+        <SectionHeading eyebrow="Step 6 of 6" title="Submit your application" />
         <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
           <Button type="submit" size="lg" disabled={status === "submitting"} className="w-full sm:w-auto btn-primary justify-center gap-2">
             {status === "submitting" ? (

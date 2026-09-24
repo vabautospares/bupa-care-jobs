@@ -45,8 +45,8 @@ const steps = [
   },
   {
     number: 4,
-    title: "Choose your plan",
-    description: "Select the plan that suits your application and review the Terms & Conditions.",
+    title: "Choose your recruitment support",
+    description: "Select the support term for recruitment coordination and Certificate of Sponsorship administration.",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
@@ -111,7 +111,7 @@ export default function HowItWorksPage() {
               <h3 className="text-lg font-bold text-[var(--color-foreground)]">Payment</h3>
             </div>
             <p className="text-[var(--color-muted)]">
-              An initial payment of £1,000 applies to the selected plan. Payment is not completed on the website. Our team will provide guidance on the next steps after your application is submitted.
+              A deposit of £1,000 is due before application review. The remaining balance is payable in agreed instalments after employment starts. Payment is not completed on the website. Our team will provide guidance on the next steps after your application is submitted.
             </p>
           </article>
 

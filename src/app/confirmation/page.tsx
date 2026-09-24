@@ -92,22 +92,31 @@ function ConfirmationContent({
               <p className="mt-2 text-lg font-semibold text-[var(--color-foreground)]">{plan.label}</p>
               <dl className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-[var(--color-muted)]">Initial payment</dt>
-                  <dd className="font-semibold text-[var(--color-foreground)]">£1,000</dd>
+                  <dt className="text-[var(--color-muted)]">Deposit (due before application review)</dt>
+                  <dd className="font-semibold text-[var(--color-foreground)]">£{plan.depositPence / 100}</dd>
                 </div>
-                <div className="flex justify-between border-t border-[var(--color-border)] pt-2">
-                  <dt className="text-[var(--color-muted)]">Total</dt>
-                  <dd className="font-bold text-[var(--color-accent)]">£{plan.pricePence / 100}</dd>
+                <div className="flex justify-between">
+                  <dt className="text-[var(--color-muted)]">Remaining balance (instalments after employment starts)</dt>
+                  <dd className="font-semibold text-[var(--color-foreground)]">£{plan.balancePence / 100}</dd>
+                </div>
+                <div className="flex justify-between text-base font-bold pt-2 border-t border-[var(--color-border)]">
+                  <dt className="text-[var(--color-foreground)]">Total company service fee</dt>
+                  <dd className="text-[var(--color-accent)]">£{plan.pricePence / 100}</dd>
                 </div>
               </dl>
+              <p className="mt-4 text-xs text-[var(--color-muted)]">{plan.externalCostsNote}</p>
+              <p className="mt-2 text-xs text-[var(--color-danger)] font-medium">{plan.noGuaranteeNote}</p>
             </div>
           )}
         </div>
 
         <div className="mt-10 card p-6 border-[var(--color-border)]">
-          <h3 className="text-lg font-bold text-[var(--color-foreground)] mb-3">Payment clarification</h3>
+          <h3 className="text-lg font-bold text-[var(--color-foreground)] mb-3">
+            Payment clarification
+          </h3>
           <p className="text-[var(--color-muted)]">
-            Payment has not been completed on the website. Our team will guide you through the next steps, including payment.
+            Payment has not been completed on the website. Our team will guide you
+            through the next steps, including payment.
           </p>
         </div>
 

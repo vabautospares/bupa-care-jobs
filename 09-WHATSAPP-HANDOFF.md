@@ -6,6 +6,7 @@ After a successful application and Terms & Conditions acceptance, provide a clea
 ## Flow
 Application submitted successfully
 → Confirmation page
+→ **Complete initial payment (£1,000) via Paystack payment link**
 → Explain that the next step is to contact support on WhatsApp
 → Button: **Continue on WhatsApp**
 
