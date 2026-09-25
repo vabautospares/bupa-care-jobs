@@ -1,11 +1,14 @@
 import { Suspense } from "react";
-import { Metadata } from "next";
 import { ApplicationForm } from "@/components/application-form";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Apply",
-  description: "Submit your application for a care job opportunity.",
-};
+export const metadata = createPageMetadata({
+  title: "Apply for a Care Job",
+  description:
+    "Start an application for a care opportunity through Bupa Care Jobs.",
+  path: "/apply",
+  noIndex: true,
+});
 
 export default function ApplyPage() {
   return (
@@ -21,6 +24,7 @@ export default function ApplyPage() {
               </div>
             }
           >
+            <h1 className="sr-only">Apply for a care opportunity</h1>
             <ApplicationForm />
           </Suspense>
         </div>

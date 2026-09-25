@@ -1,13 +1,15 @@
 import { Suspense } from "react";
-import type { Metadata } from "next";
 import { OpportunityResults } from "@/components/opportunity-results";
 import { OpportunitySearch } from "@/components/opportunity-search";
 import { SectionHeading } from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Find opportunities",
-  description: "Search care roles by keyword, category and location.",
-};
+export const metadata = createPageMetadata({
+  title: "Find Care Jobs",
+  description:
+    "Search current care opportunities by role, category, keyword and location on Bupa Care Jobs.",
+  path: "/find-opportunities",
+});
 
 export default function FindOpportunitiesPage() {
   return (
@@ -23,6 +25,7 @@ export default function FindOpportunitiesPage() {
           <SectionHeading
             eyebrow="Find opportunities"
             title="Find available care jobs"
+            headingLevel="h1"
             description="Explore available care jobs for the 2026 recruitment period and find an opportunity that matches your experience."
           />
           <div className="mt-10 animate-fade-in-up">

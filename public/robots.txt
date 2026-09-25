@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /apply
+Disallow: /confirmation
+Disallow: /api/
+
+Sitemap: https://www.bupacareers.site/sitemap.xml

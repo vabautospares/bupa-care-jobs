@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Job search flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/find-opportunities');
-    await expect(page).toHaveTitle(/Find opportunities/);
+    await expect(page).toHaveTitle(/Find Care Jobs/);
   });
 
   test('shows search form and results section', async ({ page }) => {

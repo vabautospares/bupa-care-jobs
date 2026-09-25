@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "./button";
 import { jobCategories } from "@/data/homepage";
 
@@ -16,9 +16,15 @@ export function OpportunitySearch() {
   const [location, setLocation] = useState(initialLocation);
   const [category, setCategory] = useState(initialCategory);
   const [message, setMessage] = useState<string>();
+  const initializedRef = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      return;
+    }
+
     const timeout = window.setTimeout(() => {
       setKeyword(initialKeyword);
       setLocation(initialLocation);
@@ -31,10 +37,12 @@ export function OpportunitySearch() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const trimmedKeyword = keyword.trim();
-    const trimmedLocation = location.trim();
+    const form = new FormData(event.currentTarget);
+    const trimmedKeyword = String(form.get("keyword") ?? "").trim();
+    const trimmedLocation = String(form.get("location") ?? "").trim();
+    const selectedCategory = String(form.get("category") ?? "").trim();
 
-    if (!trimmedKeyword && !trimmedLocation && !category) {
+    if (!trimmedKeyword && !trimmedLocation && !selectedCategory) {
       setMessage("Enter a job title, keyword or location to start your search.");
       return;
     }
@@ -43,18 +51,20 @@ export function OpportunitySearch() {
     const params = new URLSearchParams();
     if (trimmedKeyword) params.set("keyword", trimmedKeyword);
     if (trimmedLocation) params.set("location", trimmedLocation);
-    if (category) params.set("category", category);
+    if (selectedCategory) params.set("category", selectedCategory);
     router.push(`/find-opportunities?${params.toString()}`);
   };
 
   return (
     <form
+      action="/find-opportunities"
+      method="get"
       aria-label="Search care opportunities"
       onSubmit={handleSubmit}
       className="card bg-[var(--color-background)] p-6 shadow-lg sm:p-8 animate-fade-in-up"
     >
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-[var(--color-foreground)]">Search jobs by role or location</h2>
+        <h2 className="text-xl font-bold text-[var(--color-foreground)]">Search care opportunities</h2>
         <p className="mt-1 text-sm text-[var(--color-muted)]">Use keywords, location, and category to find your ideal care role.</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
@@ -64,6 +74,7 @@ export function OpportunitySearch() {
           </label>
           <input
             id="hero-keyword"
+            name="keyword"
             type="text"
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
@@ -79,6 +90,7 @@ export function OpportunitySearch() {
           </label>
           <input
             id="hero-location"
+            name="location"
             type="text"
             value={location}
             onChange={(event) => setLocation(event.target.value)}

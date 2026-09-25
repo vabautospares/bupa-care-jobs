@@ -7,6 +7,7 @@ interface SectionHeadingProps {
   eyebrow?: string;
   title: string;
   description?: string;
+  headingLevel?: "h1" | "h2";
   align?: "left" | "center";
   tone?: SectionTone;
   children?: ReactNode;
@@ -16,11 +17,13 @@ export function SectionHeading({
   eyebrow,
   title,
   description,
+  headingLevel = "h2",
   align = "left",
   tone = "light",
   children,
 }: SectionHeadingProps) {
   const isDark = tone === "dark";
+  const HeadingTag = headingLevel;
 
   return (
     <div
@@ -40,13 +43,13 @@ export function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <h2
+      <HeadingTag
         className={`mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl ${
           isDark ? "text-white" : "text-[var(--color-foreground)]"
         }`}
       >
         {title}
-      </h2>
+      </HeadingTag>
       {description && (
         <p
           className={`mt-4 text-lg leading-8 ${

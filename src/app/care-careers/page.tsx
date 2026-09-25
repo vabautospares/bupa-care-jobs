@@ -1,12 +1,14 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
 import Link from "next/link";
 import { jobCategories } from "@/data/homepage";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Care Careers | Bupa Care Jobs",
-  description: "Explore care career opportunities, roles, and how to apply for care jobs in the UK.",
-};
+export const metadata = createPageMetadata({
+  title: "Care Careers in the UK",
+  description:
+    "Explore care career roles, understand common opportunities and learn how to apply for care jobs in the UK.",
+  path: "/care-careers",
+});
 
 export default function CareCareersPage() {
   return (
@@ -14,6 +16,7 @@ export default function CareCareersPage() {
       <div className="site-container max-w-3xl">
         <SectionHeading
           title="Care Careers"
+          headingLevel="h1"
           description="A career in care can be rewarding, meaningful and full of opportunities. Explore available roles and take the next step in your career."
           align="center"
         />

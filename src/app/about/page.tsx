@@ -1,11 +1,13 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About us",
-  description: "Learn about Bupa Care Jobs and our mission to support people exploring careers in UK care.",
-};
+export const metadata = createPageMetadata({
+  title: "About Bupa Care Jobs",
+  description:
+    "Learn how Bupa Care Jobs supports people exploring care opportunities and the application process.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
@@ -13,6 +15,7 @@ export default function AboutPage() {
       <div className="site-container max-w-3xl">
         <SectionHeading
           title="About Bupa Care Jobs"
+          headingLevel="h1"
           description="Learn about our mission to support people exploring careers in UK care."
           align="center"
         />

@@ -1,12 +1,13 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Opportunity } from "@/lib/types";
 import { jobCategories } from "@/data/homepage";
 import { Alert } from "./alert";
 import { Button } from "./button";
+import { trackViewJob, trackApplyClick } from "@/lib/analytics";
 
 interface OpportunityResponse {
   opportunities?: Opportunity[];
@@ -31,6 +32,7 @@ const categoryLabel = (category?: string) => {
 
 export function OpportunityResults() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const queryString = searchParams.toString();
   const keyword = searchParams.get("keyword")?.trim() ?? "";
   const location = searchParams.get("location")?.trim() ?? "";
@@ -86,13 +88,13 @@ export function OpportunityResults() {
   }, [queryString]);
 
   const handleClearFilters = () => {
-    window.location.href = "/find-opportunities";
+    router.push("/find-opportunities");
   };
 
   const handleRemoveCategory = () => {
     const params = new URLSearchParams(window.location.search);
     params.delete("category");
-    window.location.href = `/find-opportunities?${params.toString()}`;
+    router.push(`/find-opportunities${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   const hasActiveCategory = Boolean(category);
@@ -128,7 +130,7 @@ export function OpportunityResults() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M18 6L6 18M6 6l12 12" />
               </svg>
-              Clear all filters
+              Clear search
             </Link>
 
             {/* Active filters display */}
@@ -142,7 +144,7 @@ export function OpportunityResults() {
                     onClick={() => {
                       const params = new URLSearchParams(window.location.search);
                       params.delete("keyword");
-                      window.location.href = `/find-opportunities?${params.toString()}`;
+                      router.push(`/find-opportunities${params.toString() ? `?${params.toString()}` : ""}`);
                     }}
                     className="ml-1 rounded-full p-0.5 text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2"
                     aria-label="Remove keyword filter"
@@ -162,7 +164,7 @@ export function OpportunityResults() {
                     onClick={() => {
                       const params = new URLSearchParams(window.location.search);
                       params.delete("location");
-                      window.location.href = `/find-opportunities?${params.toString()}`;
+                      router.push(`/find-opportunities${params.toString() ? `?${params.toString()}` : ""}`);
                     }}
                     className="ml-1 rounded-full p-0.5 text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2"
                     aria-label="Remove location filter"
@@ -213,7 +215,7 @@ export function OpportunityResults() {
               <div className="flex flex-col gap-3">
                 <p>Try a broader keyword, a nearby location or clear the search to see all available roles.</p>
                 <Button variant="secondary" onClick={handleClearFilters} className="w-full sm:w-auto">
-                  Clear all filters
+                  Clear search
                 </Button>
               </div>
             </Alert>
@@ -227,7 +229,10 @@ export function OpportunityResults() {
               <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                 {state.opportunities.map((opportunity, index) => (
                   <li key={opportunity.id} className="animate-fade-in-up" style={{ animationDelay: `${(index % 6) * 100}ms` }}>
-                    <article className="card h-full flex flex-col p-6 hover-elevate group">
+                    <article
+                      className="card h-full flex flex-col p-6 hover-elevate group"
+                      onPointerEnter={() => trackViewJob(opportunity.title, opportunity.location)}
+                    >
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <p className="text-sm font-bold text-[var(--color-accent)]">{opportunity.category}</p>
@@ -256,6 +261,9 @@ export function OpportunityResults() {
                         <Link
                           href={`/apply?role=${encodeURIComponent(opportunity.title)}`}
                           className="btn btn-primary px-4 py-2 text-sm font-bold"
+                          onClick={() => {
+                            trackApplyClick(opportunity.title, opportunity.location);
+                          }}
                         >
                           Apply now
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="ml-1 group-hover:translate-x-1 transition-transform">

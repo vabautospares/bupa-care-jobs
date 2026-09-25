@@ -1,10 +1,12 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "FAQs",
-  description: "Frequently asked questions about care jobs and the application process.",
-};
+export const metadata = createPageMetadata({
+  title: "Frequently Asked Questions",
+  description:
+    "Answers about care opportunities, applications, recruitment support and next steps through Bupa Care Jobs.",
+  path: "/faqs",
+});
 
 export default function FaqsPage() {
   const faqs = [
@@ -65,6 +67,7 @@ export default function FaqsPage() {
       <div className="site-container max-w-3xl">
         <SectionHeading
           title="Frequently Asked Questions"
+          headingLevel="h1"
           description="Find answers to common questions about finding care opportunities, applying and taking the next step."
           align="center"
         />

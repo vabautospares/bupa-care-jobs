@@ -1,13 +1,15 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
 import { legalContent } from "@/lib/legal-content";
 import { getContactConfig } from "@/lib/config";
+import { createPageMetadata } from "@/lib/seo";
 import ReactMarkdown from "react-markdown";
 
-export const metadata: Metadata = {
-  title: "Accessibility Statement | Bupa Care Jobs",
-  description: "Accessibility statement for Bupa Care Jobs.",
-};
+export const metadata = createPageMetadata({
+  title: "Accessibility Statement",
+  description:
+    "Read the accessibility statement for Bupa Care Jobs and learn about our commitment to an accessible website.",
+  path: "/accessibility",
+});
 
 function LegalContent({ content }: { content: string }) {
   return (
@@ -51,7 +53,7 @@ export default function AccessibilityPage() {
     <section className="bg-[var(--color-background)] py-12 sm:py-16">
       <div className="site-container max-w-3xl">
         <header className="mb-10 animate-fade-in-up">
-          <SectionHeading eyebrow="Legal" title={accessibility.title} />
+          <SectionHeading eyebrow="Legal" title={accessibility.title} headingLevel="h1" />
         </header>
 
         <article className="animate-fade-in-up delay-1">

@@ -1,14 +1,16 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
 import { legalContent } from "@/lib/legal-content";
 import Link from "next/link";
 import { getContactConfig } from "@/lib/config";
+import { createPageMetadata } from "@/lib/seo";
 import ReactMarkdown from "react-markdown";
 
-export const metadata: Metadata = {
-  title: "Privacy Notice for Applicants | Bupa Care Jobs",
-  description: "Privacy notice for applicants using Bupa Care Jobs.",
-};
+export const metadata = createPageMetadata({
+  title: "Privacy Notice for Applicants",
+  description: "Read the privacy notice for applicants using Bupa Care Jobs.",
+  path: "/privacy-notice",
+  noIndex: true,
+});
 
 function LegalContent({ content }: { content: string }) {
   return (
@@ -52,7 +54,7 @@ export default function PrivacyPage() {
     <section className="bg-[var(--color-background)] py-12 sm:py-16">
       <div className="site-container max-w-3xl">
         <header className="mb-10 animate-fade-in-up">
-          <SectionHeading eyebrow="Legal" title={privacy.title} />
+          <SectionHeading eyebrow="Legal" title={privacy.title} headingLevel="h1" />
         </header>
 
         <article className="animate-fade-in-up delay-1">

@@ -1,17 +1,19 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
 import { Alert } from "@/components/alert";
-import { Button } from "@/components/button";
 import Link from "next/link";
 import { getContactConfig } from "@/lib/config";
 import { SERVICE_PLANS } from "@/lib/service-plans";
+import { ConfirmationContact, ConfirmationEmail } from "@/components/confirmation-contact";
+import { createPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Application Submitted | Bupa Care Jobs",
-  description: "Your application has been received. Our team will guide you through the next steps.",
-};
+export const metadata = createPageMetadata({
+  title: "Application Submitted",
+  description: "Your application confirmation page.",
+  path: "/confirmation",
+  noIndex: true,
+});
 
 function SuccessIcon({ className = "" }: { className?: string }) {
   return (
@@ -50,6 +52,7 @@ function ConfirmationContent({
         <SectionHeading
           eyebrow="Confirmation"
           title="Your application has been submitted"
+          headingLevel="h1"
           description="Thank you for your application. Your details have been received and our team will guide you through the next steps."
           align="center"
         />
@@ -132,32 +135,18 @@ function ConfirmationContent({
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               {whatsAppLink && (
-                <a
-                  href={whatsAppLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button size="lg" variant="primary" className="w-full sm:w-auto flex-1">
-                    Follow up on WhatsApp
-                  </Button>
-                </a>
+                <ConfirmationContact whatsAppLink={whatsAppLink} />
               )}
               {!whatsAppLink && (
                 <Alert tone="warning" title="WhatsApp not configured" className="w-full">
-                  The WhatsApp integration is not configured. Please{" "}
-                  <a href="/contact" className="text-[var(--color-accent)] hover:underline">
-                    contact us
-                  </a>
-                  {" for next steps, or check back later."}
+                  <ConfirmationContact whatsAppLink={null} />
                 </Alert>
               )}
             </div>
           </div>
           <p className="mt-6 text-sm text-[var(--color-muted)] text-center sm:text-left">
             Alternatively, you can email us at{" "}
-            <a href={`mailto:${contactEmail}`} className="text-[var(--color-accent)] hover:underline font-medium">
-              {contactEmail}
-            </a>
+            <ConfirmationEmail contactEmail={contactEmail} />
             .
           </p>
         </div>

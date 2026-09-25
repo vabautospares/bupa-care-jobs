@@ -11,6 +11,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { SERVICE_PLANS } from "@/lib/service-plans";
 import { validateApplicationFormData, type ApplicationFormData, type ApplicationFieldErrors } from "@/lib/application-validation";
 import Link from "next/link";
+import { trackApplicationStart, trackApplicationSubmit } from "@/lib/analytics";
 
 const employmentPreferenceOptions = ["Full-time", "Part-time", "Flexible"] as const;
 
@@ -97,6 +98,14 @@ export function ApplicationForm() {
   const [serverMessage, setServerMessage] = useState<string>("");
 
   const rolePreSelectedRef = useRef(false);
+  const applicationStartedRef = useRef(false);
+
+  useEffect(() => {
+    if (!applicationStartedRef.current) {
+      applicationStartedRef.current = true;
+      trackApplicationStart(initialRole || undefined);
+    }
+  }, [initialRole]);
 
   const updateField = useCallback(<K extends keyof ApplicationFormData>(name: K, value: ApplicationFormData[K]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -137,6 +146,7 @@ export function ApplicationForm() {
       return;
     }
 
+    trackApplicationStart(formData.role || undefined);
     setStatus("submitting");
     setServerMessage("");
 
@@ -164,6 +174,8 @@ export function ApplicationForm() {
         }
         throw new Error(body.error || "Application submission failed.");
       }
+
+      trackApplicationSubmit(formData.selectedPlan);
 
       // Redirect to confirmation page with application details
       const confirmationUrl = `/confirmation?ref=${body.applicationId}&plan=${formData.selectedPlan}&role=${encodeURIComponent(formData.role)}`;

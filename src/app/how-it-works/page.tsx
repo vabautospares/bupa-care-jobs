@@ -1,10 +1,12 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "How it works",
-  description: "Understand the step-by-step process to find your next care job opportunity.",
-};
+export const metadata = createPageMetadata({
+  title: "How It Works",
+  description:
+    "Learn how to search care opportunities, review role information and submit an application through Bupa Care Jobs.",
+  path: "/how-it-works",
+});
 
 const steps = [
   {
@@ -73,6 +75,7 @@ export default function HowItWorksPage() {
         <SectionHeading
           eyebrow="How it works"
           title="How it works"
+          headingLevel="h1"
           description="Finding a care opportunity and starting your application is simple. Explore available jobs, choose an opportunity that suits you, complete your application and follow the guidance provided after submission."
           align="center"
         />

@@ -1,13 +1,15 @@
-import { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
 import { legalContent, termsVersion } from "@/lib/legal-content";
 import { getContactConfig } from "@/lib/config";
+import { createPageMetadata } from "@/lib/seo";
 import ReactMarkdown from "react-markdown";
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions for Applicants | Bupa Care Jobs",
-  description: "Terms and conditions for applicants using Bupa Care Jobs.",
-};
+export const metadata = createPageMetadata({
+  title: "Terms & Conditions for Applicants",
+  description: "Read the terms and conditions for applicants using Bupa Care Jobs.",
+  path: "/terms-and-conditions",
+  noIndex: true,
+});
 
 function LegalContent({ content }: { content: string }) {
   return (
@@ -55,6 +57,7 @@ export default function TermsPage() {
           <SectionHeading
             eyebrow="Legal"
             title={terms.title}
+            headingLevel="h1"
             description={`Version: ${termsVersion}`}
           />
         </header>
