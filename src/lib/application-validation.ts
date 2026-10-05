@@ -25,6 +25,23 @@ export type ApplicationFieldErrors = Partial<Record<keyof ApplicationFormData, s
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const digitsOnly = (value: string) => value.replace(/\D/g, "");
+const UK_DIAL_CODE = "44";
+
+/**
+ * Phone and WhatsApp are collected without the country code; the form shows a
+ * fixed +44 prefix. Any digits the applicant does type are stripped down to the
+ * UK national number so nobody can end up with +44+44 or 0044 in the sheet.
+ */
+export const toUkInternationalNumber = (value: string) => {
+  const national = digitsOnly(value).replace(/^0+/, "");
+
+  if (!national) {
+    return "";
+  }
+
+  return `+${UK_DIAL_CODE}${national}`;
+};
+
 const phoneValid = (value: string) => {
   const digits = digitsOnly(value);
   return digits.length >= 7 && digits.length <= 15;
@@ -98,8 +115,8 @@ export function validateApplicationFormData(data: ApplicationFormData): { data?:
     data: {
       fullName: data.fullName.trim(),
       email: data.email.trim(),
-      phone: data.phone.trim(),
-      whatsapp: data.whatsapp.trim(),
+      phone: toUkInternationalNumber(data.phone),
+      whatsapp: toUkInternationalNumber(data.whatsapp),
       country: data.country.trim(),
       ukLocation: data.ukLocation.trim(),
       role: data.role.trim(),

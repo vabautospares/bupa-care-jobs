@@ -5,6 +5,7 @@ interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "id
   label: string;
   hint?: string;
   error?: string;
+  prefix?: string;
 }
 
 export function TextField({
@@ -12,6 +13,7 @@ export function TextField({
   label,
   hint,
   error,
+  prefix,
   className = "",
   ...props
 }: TextFieldProps) {
@@ -20,6 +22,16 @@ export function TextField({
   const describedBy = [hint ? descriptionId : undefined, error ? errorId : undefined]
     .filter(Boolean)
     .join(" ");
+
+  const input = (
+    <input
+      id={id}
+      className={`input ${error ? "input-error" : ""} ${prefix ? "rounded-l-none border-l-0" : ""} ${className}`}
+      aria-invalid={Boolean(error)}
+      aria-describedby={describedBy || undefined}
+      {...props}
+    />
+  );
 
   return (
     <div className="space-y-2">
@@ -36,13 +48,19 @@ export function TextField({
           {hint}
         </p>
       )}
-      <input
-        id={id}
-        className={`input ${error ? "input-error" : ""} ${className}`}
-        aria-invalid={Boolean(error)}
-        aria-describedby={describedBy || undefined}
-        {...props}
-      />
+      {prefix ? (
+        <div className="flex">
+          <span
+            aria-hidden="true"
+            className="inline-flex items-center rounded-sm border border-r-0 border-[var(--color-border)] bg-[var(--color-surface-strong)] px-3 font-bold text-[var(--color-muted)]"
+          >
+            {prefix}
+          </span>
+          {input}
+        </div>
+      ) : (
+        input
+      )}
       {error && (
         <p id={errorId} role="alert" className="text-sm font-semibold text-[var(--color-danger)]">
           {error}

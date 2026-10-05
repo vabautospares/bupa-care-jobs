@@ -247,6 +247,10 @@ export function ApplicationForm() {
             id="phone"
             name="phone"
             label="Phone number"
+            prefix="+44"
+            type="tel"
+            inputMode="tel"
+            hint="UK number only, without the +44 code."
             value={formData.phone}
             onChange={handleInputChange}
             error={errors.phone}
@@ -257,6 +261,10 @@ export function ApplicationForm() {
             id="whatsapp"
             name="whatsapp"
             label="WhatsApp number"
+            prefix="+44"
+            type="tel"
+            inputMode="tel"
+            hint="UK number only, without the +44 code."
             value={formData.whatsapp}
             onChange={handleInputChange}
             error={errors.whatsapp}
