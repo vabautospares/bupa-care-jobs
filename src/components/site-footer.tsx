@@ -5,7 +5,7 @@ const footerGroups = [
     title: "Explore",
     links: [
       { label: "Find opportunities", href: "/find-opportunities" },
-      { label: "How it works", href: "/how-it-works" },
+      { label: "Recruitment process", href: "/recruitment-process" },
       { label: "Care careers", href: "/care-careers" },
     ],
   },

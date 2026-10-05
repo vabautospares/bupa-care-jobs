@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 const navigationLinks = [
   { label: "Find opportunities", href: "/find-opportunities" },
-  { label: "How it works", href: "/how-it-works" },
+  { label: "Recruitment process", href: "/recruitment-process" },
   { label: "Care careers", href: "/care-careers" },
   { label: "About us", href: "/about" },
   { label: "FAQs", href: "/faqs" },

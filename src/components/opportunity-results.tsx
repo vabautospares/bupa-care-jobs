@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Opportunity } from "@/lib/types";
-import { jobCategories } from "@/data/homepage";
+import { jobCategories, SALARY_GUIDANCE_NOTE } from "@/data/homepage";
 import { Alert } from "./alert";
 import { Button } from "./button";
 import { trackViewJob, trackApplyClick } from "@/lib/analytics";
@@ -28,6 +28,24 @@ const categoryLabel = (category?: string) => {
     jobCategories.find((item) => item.href.includes(`category=${category}`))
       ?.title ?? category
   );
+};
+
+const categorySalary = (opportunity: Opportunity) => {
+  if (opportunity.salary) {
+    return opportunity.salary;
+  }
+
+  const category = opportunity.category?.trim().toLowerCase();
+
+  if (!category) {
+    return undefined;
+  }
+
+  return jobCategories.find(
+    (item) =>
+      item.href.includes(`category=${category}`) ||
+      item.title.toLowerCase() === category,
+  )?.salary;
 };
 
 export function OpportunityResults() {
@@ -235,7 +253,7 @@ export function OpportunityResults() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <p className="text-sm font-bold text-[var(--color-accent)]">{opportunity.category}</p>
+                          <p className="text-sm font-bold text-[var(--color-accent)]">{categoryLabel(opportunity.category)}</p>
                           <h3 className="mt-2 text-xl font-bold leading-snug text-[var(--color-foreground)] group-hover:text-[var(--color-accent)] transition-colors">{opportunity.title}</h3>
                         </div>
                         <span className="badge whitespace-nowrap shrink-0">
@@ -249,6 +267,11 @@ export function OpportunityResults() {
                         </svg>
                         <span>{opportunity.location}</span>
                       </div>
+                      {categorySalary(opportunity) && (
+                        <p className="mt-4 inline-flex rounded-sm bg-[var(--color-accent-soft)] px-3 py-1.5 text-sm font-bold text-[var(--color-accent-hover)]">
+                          {categorySalary(opportunity)}
+                        </p>
+                      )}
                       <p className="mt-4 flex-1 leading-7 text-[var(--color-foreground)] line-clamp-3">{opportunity.description}</p>
                       <div className="mt-6 flex items-center justify-between gap-3 border-t border-[var(--color-border)] pt-4">
                         <div className="flex items-center gap-1.5 text-sm text-[var(--color-muted)]">
@@ -275,6 +298,9 @@ export function OpportunityResults() {
                   </li>
                 ))}
               </ul>
+              <p className="mt-8 max-w-3xl text-sm leading-6 text-[var(--color-muted)]">
+                {SALARY_GUIDANCE_NOTE}
+              </p>
             </>
           )}
         </div>

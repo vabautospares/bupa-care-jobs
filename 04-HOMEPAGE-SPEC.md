@@ -12,7 +12,7 @@ Primary CTA:
 **Find opportunities**
 
 Secondary CTA where appropriate:
-**How it works**
+**Recruitment process**
 
 ## Search
 Create a prominent search component inspired by the reference care-home search.
@@ -25,6 +25,13 @@ Button:
 **Search opportunities**
 
 Include keyboard support, labels, accessible focus states and useful empty-state messaging.
+
+## Mission band
+A full-bleed navy band placed directly under the hero and search, before "Where do I start?".
+Heading:
+**We make health happen**
+
+Follow it with four short paragraphs describing who the service is for, what the team helps with, how updates are given, and the range of UK care settings. Close with a single text link to the recruitment process page. No second button, and no new colours or assets.
 
 ## Intro section
 Explain what working in care can involve and who the service is for.

@@ -4,7 +4,7 @@
 |---|---|---|---|
 | `/` | Home | Reserved for Phase 2 | `04-HOMEPAGE-SPEC.md` |
 | `/find-opportunities` | Find Opportunities | Reserved for Phase 3 | `03-SITE-STRUCTURE.md`, `05-JOB-SEARCH-SPEC.md` |
-| `/how-it-works` | How It Works | Placeholder pending content approval | Project journey and homepage steps |
+| `/recruitment-process` | Recruitment Process | Drafted; interview stages and response timescales still need project owner confirmation | Reference recruitment process structure; deposit and plan wording from `src/lib/service-plans.ts` |
 | `/care-careers` | Care Careers | Separate page reserved | Broader working-in-care copy pending approval |
 | `/about` | About | Placeholder pending content approval | Project owner copy pending |
 | `/faqs` | FAQs | Placeholder pending content approval | FAQ content pending |

@@ -11,7 +11,7 @@ export function StepsSection() {
     <section className="bg-[var(--color-surface)] py-16 sm:py-24">
       <div className="site-container">
         <SectionHeading
-          eyebrow="How it works"
+          eyebrow="Recruitment process"
           title="A clear path from first search to next steps"
           description="The process is designed to be easy to follow, with support available when you need it."
           align="center"

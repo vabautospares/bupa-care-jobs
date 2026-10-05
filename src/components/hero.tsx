@@ -25,10 +25,10 @@ export function Hero() {
               View available jobs
             </Link>
             <Link
-              href="/how-it-works"
+              href="/recruitment-process"
               className="btn btn-outline px-8 py-4 text-lg"
             >
-              How it works
+              Recruitment process
             </Link>
           </div>
         </div>

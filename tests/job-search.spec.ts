@@ -12,6 +12,11 @@ test.describe('Job search flow', () => {
     await expect(page.locator('input[name="location"]')).toBeVisible();
   });
 
+  test('vacancy cards show a pay range', async ({ page }) => {
+    await expect(page.locator('article.card').first()).toContainText('£17.00 – £18.60 per hour');
+    await expect(page.getByText('Pay shown is an indicative range for each role in the UK')).toBeVisible();
+  });
+
   test('empty search shows validation message', async ({ page }) => {
     await page.click('button[type="submit"]');
     await expect(page.locator('text=Enter a job title, keyword or location to start your search.')).toBeVisible();

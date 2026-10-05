@@ -63,6 +63,7 @@ const toOpportunity = (row: string[], headers: string[]): Opportunity | null => 
     "worktype",
   ]);
   const availability = getCellValue(row, headers, ["availability", "schedule"]);
+  const salary = getCellValue(row, headers, ["salary", "pay", "payrate"]);
   const id =
     getCellValue(row, headers, ["id", "opportunityid"]) || slugify(title);
 
@@ -78,6 +79,7 @@ const toOpportunity = (row: string[], headers: string[]): Opportunity | null => 
     category: category || "Care roles",
     employmentType: employmentType || "Not specified",
     availability: availability || "Not specified",
+    ...(salary ? { salary } : {}),
     active: parseBoolean(getCellValue(row, headers, ["active", "status"])),
   };
 };

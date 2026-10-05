@@ -3,7 +3,7 @@
 ## Primary pages
 - Home
 - Find Opportunities
-- How It Works
+- Recruitment Process
 - Care Careers
 - About
 - FAQs
@@ -17,7 +17,7 @@ Use a simple care-services-style navigation.
 
 Recommended primary links:
 - Find opportunities
-- How it works
+- Recruitment process
 - Care careers
 - About us
 - FAQs

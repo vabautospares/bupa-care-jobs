@@ -51,6 +51,12 @@ Suggested opportunity fields:
 - category
 - employment_type
 - availability
+- salary
 - active
+
+`salary` is optional. When the sheet provides it, the vacancy card shows the employer's own pay for that role. When it is missing, the card is shown without a pay figure rather than guessing one.
+
+## Pay guidance
+Where a vacancy has no pay figure, the role cards use the typical UK ranges held in `src/data/homepage.ts` (`jobCategories.salary` for each role, plus `SALARY_GUIDANCE_NOTE`). These are market ranges, not an offer: the employer sets the rate for each vacancy and confirms it in the offer. Update them when the advertised rates move.
 
 Do not add employer dashboards or complex vacancy management.

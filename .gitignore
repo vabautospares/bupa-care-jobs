@@ -21,3 +21,13 @@ pnpm-debug.log*
 
 # deployment
 .vercel/
+
+# test artefacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+tsconfig.tsbuildinfo
+
+# agent tooling
+.kilo/

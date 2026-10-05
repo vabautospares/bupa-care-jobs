@@ -68,7 +68,7 @@ export async function saveApplication(application: Application): Promise<string>
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range,
-      valueInputOption: "USER_ENTERED",
+      valueInputOption: "RAW",
       requestBody: { values },
     });
 

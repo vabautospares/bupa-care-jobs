@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { jobCategories } from "@/data/homepage";
+import { jobCategories, SALARY_GUIDANCE_NOTE } from "@/data/homepage";
 import { SectionHeading } from "./section-heading";
 
 const iconPaths: Record<string, ReactNode> = {
@@ -40,12 +40,18 @@ export function CategoryGrid() {
                   </svg>
                 </span>
                 <h3 className="mt-6 text-xl font-bold text-[var(--color-foreground)]">{category.title}</h3>
-                <p className="mt-3 leading-7 text-[var(--color-muted)]">{category.description}</p>
+                <p className="mt-3 inline-flex rounded-sm bg-[var(--color-accent-soft)] px-3 py-1.5 text-sm font-bold text-[var(--color-accent-hover)]">
+                  {category.salary}
+                </p>
+                <p className="mt-4 leading-7 text-[var(--color-muted)]">{category.description}</p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-accent)]">Explore role <span aria-hidden="true">→</span></span>
               </Link>
             </li>
           ))}
         </ul>
+        <p className="mt-8 max-w-3xl text-sm leading-6 text-[var(--color-muted)]">
+          {SALARY_GUIDANCE_NOTE}
+        </p>
       </div>
     </section>
   );

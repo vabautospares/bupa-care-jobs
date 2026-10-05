@@ -1,6 +1,6 @@
 import { SectionHeading } from "@/components/section-heading";
 import Link from "next/link";
-import { jobCategories } from "@/data/homepage";
+import { jobCategories, SALARY_GUIDANCE_NOTE } from "@/data/homepage";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -45,12 +45,18 @@ export default function CareCareersPage() {
           </p>
           <ul className="mt-6 grid gap-3 md:grid-cols-2">
             {jobCategories.map((category) => (
-              <li key={category.title} className="card p-4 flex items-center gap-3">
-                <span aria-hidden="true" className="h-2.5 w-2.5 bg-[var(--color-accent)] rounded-full shrink-0" />
-                <span className="font-semibold text-[var(--color-foreground)]">{category.title}</span>
+              <li key={category.title} className="card flex items-start gap-3 p-4">
+                <span aria-hidden="true" className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-accent)]" />
+                <span>
+                  <span className="font-semibold text-[var(--color-foreground)]">{category.title}</span>
+                  <span className="mt-1 block text-sm font-bold text-[var(--color-accent-hover)]">{category.salary}</span>
+                </span>
               </li>
             ))}
           </ul>
+          <p className="mt-4 text-sm text-[var(--color-muted)]">
+            {SALARY_GUIDANCE_NOTE}
+          </p>
           <p className="mt-4 text-sm text-[var(--color-muted)]">
             Not every applicant is eligible for every role. Please review the details of each available job before applying.
           </p>
@@ -79,25 +85,14 @@ export default function CareCareersPage() {
 
         <div id="how-to-apply" className="mt-12 animate-fade-in-up delay-5">
           <SectionHeading title="How to apply" />
-          <ol className="mt-6 space-y-3">
-            {[
-              "Find an available care job.",
-              "Review the opportunity details.",
-              "Start your application.",
-              "Complete your personal, employment and experience details.",
-              "Choose your recruitment support term.",
-              "Review and accept the Terms & Conditions.",
-              "Submit your application.",
-              "Follow the guidance provided after submission.",
-            ].map((step, index) => (
-              <li key={index} className="card p-4 flex items-start gap-3">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-hover)] text-sm font-bold flex items-center justify-center">
-                  {index + 1}
-                </span>
-                <span className="text-[var(--color-muted)] pt-1">{step}</span>
-              </li>
-            ))}
-          </ol>
+          <p className="mt-4 text-[var(--color-muted)]">
+            Search the available opportunities, open the role that suits you, complete your application, choose your recruitment support term, accept the Terms &amp; Conditions and submit. Our recruitment process page walks through each of these steps in detail, including what to gather before you start and what happens after you submit.
+          </p>
+          <div className="mt-6">
+            <Link href="/recruitment-process" className="btn btn-outline px-8 py-3 text-base">
+              See our recruitment process
+            </Link>
+          </div>
           <div className="mt-6 card p-4 border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]">
             <p className="text-sm text-[var(--color-warning)]">
               A deposit of £1,000 is due before application review. The remaining balance is payable in agreed instalments after employment starts. Payment is not completed on the website. Our team will guide you through the next steps, including payment.
