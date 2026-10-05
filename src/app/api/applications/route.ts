@@ -12,6 +12,14 @@ const APPS_SCRIPT_TIMEOUT_MS = 45000;
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 2000;
 
+/** The Apps Script answered, but it refused to write the row. */
+class SubmissionRejectedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "SubmissionRejectedError";
+  }
+}
+
 async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number): Promise<Response> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -128,8 +136,13 @@ export async function POST(request: NextRequest) {
 
     console.log('[applications] Apps Script response data:', data);
 
-    if (!response.ok) {
-      throw new Error(data.error || "Application submission failed");
+    // Apps Script always answers with HTTP 200, so a rejected submission comes
+    // back as { ok: false, error } rather than a failing status code. Checking
+    // only response.ok would report a failed write to the applicant as success.
+    if (!response.ok || data?.ok === false || data?.error) {
+      const reason =
+        typeof data?.error === "string" ? data.error : "Application submission failed";
+      throw new SubmissionRejectedError(reason);
     }
 
     return NextResponse.json(
@@ -143,6 +156,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Application submission timed out. Please try again." },
         { status: 504 },
+      );
+    }
+
+    if (error instanceof SubmissionRejectedError) {
+      return NextResponse.json(
+        { error: `We could not save your application: ${error.message}` },
+        { status: 502 },
       );
     }
 
