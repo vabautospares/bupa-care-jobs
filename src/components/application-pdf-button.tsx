@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { jsPDF } from "jspdf";
 import { SERVICE_PLANS } from "@/lib/service-plans";
 import type { ServicePlan } from "@/lib/types";
 
@@ -61,8 +62,6 @@ export function ApplicationPdfButton({ reference, planId, role, contactEmail }: 
   const downloadPdf = async () => {
     setLoading(true);
     try {
-      const { jsPDF } = await import("jspdf");
-
       const doc = new jsPDF();
 
       let logoDataUrl: string | null = null;
