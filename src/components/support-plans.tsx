@@ -28,7 +28,7 @@ export function SupportPlans({
   align = "center",
   planNotes,
   ctaLabel = "Start application",
-  ctaHref = "/apply",
+  ctaHref = "/apply/eligibility",
   className,
 }: SupportPlansProps) {
   return (

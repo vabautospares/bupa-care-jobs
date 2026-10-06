@@ -31,3 +31,7 @@ tsconfig.tsbuildinfo
 
 # agent tooling
 .kilo/
+
+# Admin offer-letter tool (local only)
+src/app/admin/
+public/admin/

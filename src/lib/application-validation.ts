@@ -25,26 +25,20 @@ export type ApplicationFieldErrors = Partial<Record<keyof ApplicationFormData, s
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const digitsOnly = (value: string) => value.replace(/\D/g, "");
-const UK_DIAL_CODE = "44";
 
-/**
- * Phone and WhatsApp are collected without the country code; the form shows a
- * fixed +44 prefix. Any digits the applicant does type are stripped down to the
- * UK national number so nobody can end up with +44+44 or 0044 in the sheet.
- */
-export const toUkInternationalNumber = (value: string) => {
-  const national = digitsOnly(value).replace(/^0+/, "");
+export const toInternationalNumber = (value: string) => {
+  const digits = digitsOnly(value).replace(/^0+/, "");
 
-  if (!national) {
+  if (!digits) {
     return "";
   }
 
-  return `+${UK_DIAL_CODE}${national}`;
+  return `+${digits}`;
 };
 
 const phoneValid = (value: string) => {
-  const digits = digitsOnly(value);
-  return digits.length >= 7 && digits.length <= 15;
+  const digits = digitsOnly(value).replace(/^0+/, "");
+  return digits.length >= 8 && digits.length <= 15;
 };
 
 const stringFields: (keyof ApplicationFormData)[] = [
@@ -79,12 +73,22 @@ export function validateApplicationFormData(data: ApplicationFormData): { data?:
     errors.email = "Enter a valid email address.";
   }
 
-  if (data.phone && !phoneValid(data.phone)) {
-    errors.phone = "Enter a valid phone number.";
+  if (data.phone) {
+    const digits = digitsOnly(data.phone);
+    if (digits.startsWith("0")) {
+      errors.phone = "Include your country code (e.g. +44) before the number.";
+    } else if (!phoneValid(data.phone)) {
+      errors.phone = "Enter a valid phone number.";
+    }
   }
 
-  if (data.whatsapp && !phoneValid(data.whatsapp)) {
-    errors.whatsapp = "Enter a valid WhatsApp number.";
+  if (data.whatsapp) {
+    const digits = digitsOnly(data.whatsapp);
+    if (digits.startsWith("0")) {
+      errors.whatsapp = "Include your country code (e.g. +44) before the number.";
+    } else if (!phoneValid(data.whatsapp)) {
+      errors.whatsapp = "Enter a valid WhatsApp number.";
+    }
   }
 
   if (data.careExperience) {
@@ -115,8 +119,8 @@ export function validateApplicationFormData(data: ApplicationFormData): { data?:
     data: {
       fullName: data.fullName.trim(),
       email: data.email.trim(),
-      phone: toUkInternationalNumber(data.phone),
-      whatsapp: toUkInternationalNumber(data.whatsapp),
+      phone: toInternationalNumber(data.phone),
+      whatsapp: toInternationalNumber(data.whatsapp),
       country: data.country.trim(),
       ukLocation: data.ukLocation.trim(),
       role: data.role.trim(),

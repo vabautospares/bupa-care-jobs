@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Opportunity } from "@/lib/types";
 import { jobCategories, SALARY_GUIDANCE_NOTE } from "@/data/homepage";
+import { opportunityPath, opportunitySlug } from "@/lib/seo";
 import { Alert } from "./alert";
 import { Button } from "./button";
 import { trackViewJob, trackApplyClick } from "@/lib/analytics";
@@ -281,8 +282,15 @@ export function OpportunityResults() {
                           </svg>
                           <span>{opportunity.availability}</span>
                         </div>
-                        <Link
-                          href={`/apply?role=${encodeURIComponent(opportunity.title)}`}
+                        <div className="flex items-center gap-3">
+                          <Link
+                            href={opportunityPath(opportunitySlug(opportunity))}
+                            className="text-sm font-bold text-[var(--color-accent)] underline underline-offset-4 hover:text-[var(--color-accent-hover)]"
+                          >
+                            View details
+                          </Link>
+                          <Link
+                          href={`/apply/eligibility?role=${encodeURIComponent(opportunity.title)}`}
                           className="btn btn-primary px-4 py-2 text-sm font-bold"
                           onClick={() => {
                             trackApplyClick(opportunity.title, opportunity.location);
@@ -292,7 +300,8 @@ export function OpportunityResults() {
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="ml-1 group-hover:translate-x-1 transition-transform">
                             <path d="M5 12h14M12 5l7 7-7 7" />
                           </svg>
-                        </Link>
+                          </Link>
+                        </div>
                       </div>
                     </article>
                   </li>

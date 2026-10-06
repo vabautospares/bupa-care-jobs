@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getContactConfig } from "@/lib/config";
 import { SERVICE_PLANS } from "@/lib/service-plans";
 import { ConfirmationContact, ConfirmationEmail } from "@/components/confirmation-contact";
+import { ApplicationPdfButton } from "@/components/application-pdf-button";
 import { createPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -80,6 +81,14 @@ function ConfirmationContent({
               </code>
             </div>
           )}
+          <div className="mt-6">
+            <ApplicationPdfButton
+              reference={applicationId}
+              planId={plan?.id}
+              role={role}
+              contactEmail={contactEmail}
+            />
+          </div>
         </div>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2">

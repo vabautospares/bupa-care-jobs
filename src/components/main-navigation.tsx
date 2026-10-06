@@ -103,7 +103,7 @@ export function MainNavigation() {
         ))}
         <li>
           <Link
-            href="/apply"
+            href="/apply/eligibility"
             className="rounded-sm bg-[var(--color-accent)] px-4 py-2 text-sm font-bold text-[var(--color-accent-contrast)] shadow-sm hover:bg-[var(--color-accent-hover)]"
           >
             Apply now
@@ -151,7 +151,7 @@ export function MainNavigation() {
           ))}
           <li className="pt-2">
             <Link
-              href="/apply"
+              href="/apply/eligibility"
               className="block rounded-sm bg-[var(--color-accent)] px-3 py-3 text-center text-base font-bold text-[var(--color-accent-contrast)] hover:bg-[var(--color-accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2"
             >
               Apply now

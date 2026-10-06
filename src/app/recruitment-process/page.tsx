@@ -61,12 +61,12 @@ export default function RecruitmentProcessPage() {
               By registering with us for UK-based jobs, you can easily search and apply for any new jobs as they go live. This will also mean that the resourcing team will be able to match your experience to new jobs, recommending roles for you to apply to.
             </p>
             <div className="mt-6 flex flex-col gap-4 sm:flex-row">
-              <Link href="/find-opportunities" className="btn btn-primary px-6 py-3">
-                Search our UK-based jobs
-              </Link>
-              <Link href="/apply" className="btn btn-outline px-6 py-3">
-                Register your interest
-              </Link>
+               <Link href="/find-opportunities" className="btn btn-primary px-6 py-3">
+                 Search our UK-based jobs
+               </Link>
+               <Link href="/apply/eligibility" className="btn btn-outline px-6 py-3">
+                 Register your interest
+               </Link>
             </div>
           </div>
 
@@ -153,22 +153,8 @@ export default function RecruitmentProcessPage() {
               "five-year": "Suits you if you want the same recruitment support across a five-year term.",
             }}
             ctaLabel="Start application"
-            ctaHref="/apply"
+            ctaHref="/apply/eligibility"
           />
-          <article className="card mt-6 p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--color-warning-soft)] text-[var(--color-warning)]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold text-[var(--color-foreground)]">Payment</h3>
-            </div>
-            <p className="mt-4 leading-8 text-[var(--color-muted)]">
-              A deposit of £1,000 is due before application review. The remaining balance is payable in agreed instalments after employment starts. Payment is not completed on the website. Our team will provide guidance on the next steps after your application is submitted.
-            </p>
-          </article>
         </div>
 
         <div className="mt-20">

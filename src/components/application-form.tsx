@@ -29,10 +29,11 @@ const steps = [
   { label: "Submit", href: "#submit" },
 ] as const;
 
-export function ApplicationForm() {
+export function ApplicationForm({ applicantTypeLabel }: { applicantTypeLabel?: string }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialRole = searchParams.get("role") ?? "";
+  const applicantType = searchParams.get("applicant") ?? "";
   const [workTypeOptions, setWorkTypeOptions] = useState<string[]>([]);
   const [opportunityTitles, setOpportunityTitles] = useState<string[]>([]);
   const [opportunitiesError, setOpportunitiesError] = useState<string | null>(null);
@@ -177,6 +178,35 @@ export function ApplicationForm() {
 
       trackApplicationSubmit(formData.selectedPlan);
 
+      const validated = result.data!;
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "bupa-application-confirmation",
+          JSON.stringify({
+            ref: body.applicationId,
+            plan: formData.selectedPlan,
+            role: formData.role,
+            applicantType,
+            submittedAt: new Date().toISOString(),
+            fullName: validated.fullName,
+            email: validated.email,
+            phone: validated.phone,
+            whatsapp: validated.whatsapp,
+            country: validated.country,
+            ukLocation: validated.ukLocation,
+            preferredLocation: validated.preferredLocation,
+            workType: validated.workType,
+            employmentPreference: validated.employmentPreference,
+            availability: validated.availability,
+            careExperience: validated.careExperience,
+            yearsExperience: validated.yearsExperience,
+            qualifications: validated.qualifications,
+            employmentStatus: validated.employmentStatus,
+          }),
+        );
+      }
+
       // Redirect to confirmation page with application details
       const confirmationUrl = `/confirmation?ref=${body.applicationId}&plan=${formData.selectedPlan}&role=${encodeURIComponent(formData.role)}`;
       router.push(confirmationUrl);
@@ -189,6 +219,14 @@ export function ApplicationForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-10 animate-fade-in-up">
+      {applicantTypeLabel && (
+        <div className="card p-4 bg-[var(--color-accent-soft)] border border-[var(--color-accent)]">
+          <p className="text-sm font-bold text-[var(--color-accent)]">
+            You&apos;re applying as: {applicantTypeLabel}
+          </p>
+        </div>
+      )}
+
       {/* Progress indicator */}
       <nav aria-label="Application progress" className="mb-8">
         <ol className="flex items-center gap-2 sm:gap-4" role="list" aria-label="Application steps">
@@ -247,10 +285,9 @@ export function ApplicationForm() {
             id="phone"
             name="phone"
             label="Phone number"
-            prefix="+44"
             type="tel"
             inputMode="tel"
-            hint="UK number only, without the +44 code."
+            hint="Enter the full number including the country code, e.g. +44 7700 900123."
             value={formData.phone}
             onChange={handleInputChange}
             error={errors.phone}
@@ -261,10 +298,9 @@ export function ApplicationForm() {
             id="whatsapp"
             name="whatsapp"
             label="WhatsApp number"
-            prefix="+44"
             type="tel"
             inputMode="tel"
-            hint="UK number only, without the +44 code."
+            hint="Enter the full number including the country code, e.g. +44 7700 900123."
             value={formData.whatsapp}
             onChange={handleInputChange}
             error={errors.whatsapp}
@@ -274,7 +310,7 @@ export function ApplicationForm() {
           <TextField
             id="country"
             name="country"
-            label="Country"
+            label="Country you're applying from"
             value={formData.country}
             onChange={handleInputChange}
             error={errors.country}
@@ -285,6 +321,7 @@ export function ApplicationForm() {
             id="ukLocation"
             name="ukLocation"
             label="UK location"
+            hint="If you are in the UK, enter your location (e.g. London). If you are outside the UK, enter the country you are in."
             value={formData.ukLocation}
             onChange={handleInputChange}
             error={errors.ukLocation}
