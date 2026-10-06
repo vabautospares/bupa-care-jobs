@@ -128,7 +128,7 @@ function ConfirmationContent({
           </h3>
           <p className="text-[var(--color-muted)]">
             Payment has not been completed on the website. Our team will guide you
-            through the next steps, including payment.
+            through the next steps.
           </p>
         </div>
 

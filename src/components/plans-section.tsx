@@ -7,7 +7,7 @@ export function PlansSection() {
         <SupportPlans
           eyebrow="Recruitment and Certificate of Sponsorship administration"
           title="Choose the support term for your recruitment journey"
-          description="The company service fee covers recruitment coordination and administration of your Certificate of Sponsorship. UK government and third-party immigration costs are quoted separately before payment."
+          description="The company service fee covers recruitment coordination and administration of your Certificate of Sponsorship. UK government and third-party immigration costs are quoted separately."
         />
       </div>
     </section>

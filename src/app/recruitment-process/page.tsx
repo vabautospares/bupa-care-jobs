@@ -147,7 +147,7 @@ export default function RecruitmentProcessPage() {
           <SupportPlans
             eyebrow="Recruitment and sponsorship support"
             title="Choose the support that suits your move to the UK"
-            description="The support term covers recruitment coordination and administration of your Certificate of Sponsorship. UK government and third-party immigration costs are quoted separately before payment."
+            description="The support term covers recruitment coordination and administration of your Certificate of Sponsorship. UK government and third-party immigration costs are quoted separately."
             planNotes={{
               "three-year": "Suits you if you are looking for recruitment support across a three-year term.",
               "five-year": "Suits you if you want the same recruitment support across a five-year term.",

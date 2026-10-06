@@ -52,10 +52,6 @@ export function SupportPlans({
             <p className="mt-6 text-4xl font-bold tracking-tight text-[var(--color-foreground)]">{formatPounds(plan.pricePence)}</p>
             <dl className="mt-4 space-y-3 text-sm">
               <div className="flex justify-between">
-                <dt className="text-[var(--color-muted)]">Deposit (due before issuance of COS and work permit)</dt>
-                <dd className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.depositPence)}</dd>
-              </div>
-              <div className="flex justify-between">
                 <dt className="text-[var(--color-muted)]">Remaining balance (after getting COS for visa approval and app)</dt>
                 <dd className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.balancePence)}</dd>
               </div>

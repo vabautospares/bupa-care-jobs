@@ -95,7 +95,7 @@ export default function CareCareersPage() {
           </div>
           <div className="mt-6 card p-4 border-[var(--color-warning)]/30 bg-[var(--color-warning-soft)]">
             <p className="text-sm text-[var(--color-warning)]">
-              A deposit of £1,000 is due before application review. The remaining balance is payable in agreed instalments after employment starts. Payment is not completed on the website. Our team will guide you through the next steps, including payment.
+              Our team will guide you through the application review and next steps after you apply.
             </p>
           </div>
         </div>

@@ -511,10 +511,6 @@ export function ApplicationForm({ applicantTypeLabel }: { applicantTypeLabel?: s
                   <h3 className="text-xl font-bold text-[var(--color-foreground)]">{plan.label}</h3>
                   <div className="mt-4 space-y-3 pt-4 border-t border-[var(--color-border)]">
                     <div className="flex justify-between text-sm">
-                      <span className="text-[var(--color-muted)]">Deposit (due before application review)</span>
-                      <span className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.depositPence)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
                       <span className="text-[var(--color-muted)]">Remaining balance (instalments after employment starts)</span>
                       <span className="font-semibold text-[var(--color-foreground)]">{formatPounds(plan.balancePence)}</span>
                     </div>

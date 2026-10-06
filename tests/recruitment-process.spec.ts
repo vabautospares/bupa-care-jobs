@@ -30,7 +30,7 @@ test.describe('Recruitment process page', () => {
 
     await expect(page.locator('text=3-Year Recruitment & Sponsorship Support')).toBeVisible();
     await expect(page.locator('text=5-Year Recruitment & Sponsorship Support')).toBeVisible();
-    await expect(page.locator('text=Deposit (due before issuance of COS and work permit)').first()).toBeVisible();
+    await expect(page.locator('text=Remaining balance (after getting COS for visa approval and app)').first()).toBeVisible();
   });
 
   test('page CTA points at the opportunities search', async ({ page }) => {
