@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Force cache bust 2026-10-06
   async redirects() {
     return [
       {
