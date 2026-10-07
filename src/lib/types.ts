@@ -22,6 +22,8 @@ export interface Opportunity {
   employmentType: string;
   availability: string;
   salary?: string;
+  datePosted?: string;
+  validThrough?: string;
   active: boolean;
 }
 
