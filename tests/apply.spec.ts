@@ -35,8 +35,8 @@ const fillCompleteApplication = async (page: Page) => {
 
   await page.fill('input[name="fullName"]', 'Alex Smith');
   await page.fill('input[name="email"]', 'alex@example.com');
-  await page.fill('input[name="phone"]', '7700900123');
-  await page.fill('input[name="whatsapp"]', '07700900123');
+  await page.fill('input[name="phone"]', '+447700900123');
+  await page.fill('input[name="whatsapp"]', '+447700900123');
   await page.fill('input[name="country"]', 'United Kingdom');
   await page.fill('input[name="preferredLocation"]', 'London');
   await page.fill('input[name="availability"]', '2 weeks');
@@ -82,8 +82,8 @@ test.describe('Apply page', () => {
     await expect(page.locator('text=Enter a valid WhatsApp number.')).toBeVisible();
   });
 
-  test('phone and WhatsApp show a fixed +44 prefix the applicant cannot type into', async ({ page }) => {
-    await expect(page.getByText('+44', { exact: true })).toHaveCount(2);
+  test('phone and WhatsApp accept full international numbers without a fixed prefix', async ({ page }) => {
+    await expect(page.getByText('+44', { exact: true })).toHaveCount(0);
 
     const phone = page.locator('input[name="phone"]');
     await expect(phone).toHaveAttribute('type', 'tel');
@@ -96,6 +96,13 @@ test.describe('Apply page', () => {
 
     expect(body.phone).toBe('+447700900123');
     expect(body.whatsapp).toBe('+447700900123');
+  });
+
+  test('numbers starting with 0 show country code error for phone and WhatsApp', async ({ page }) => {
+    await page.fill('input[name="phone"]', '07700900123');
+    await page.fill('input[name="whatsapp"]', '07700900123');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('text=Include your country code (e.g. +44) before the number.')).toHaveCount(2);
   });
 
   test('care experience checkbox reveals years field validation', async ({ page }) => {

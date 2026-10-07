@@ -27,11 +27,12 @@ export function Button({
   variant = "primary",
   size = "md",
   className = "",
+  type = "button",
   ...props
 }: ButtonProps) {
   return (
     <button
-      type="button"
+      type={type}
       className={`inline-flex items-center justify-center rounded-sm font-bold transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...props}
     />

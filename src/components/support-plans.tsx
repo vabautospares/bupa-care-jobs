@@ -69,7 +69,6 @@ export function SupportPlans({
               ))}
             </ul>
             <p className="mt-4 text-xs text-[var(--color-muted)]">{plan.externalCostsNote}</p>
-            <p className="mt-2 text-xs text-[var(--color-danger)] font-medium">{plan.noGuaranteeNote}</p>
             <Link href={ctaHref} className="mt-8 inline-flex w-full items-center justify-center rounded-sm bg-[var(--color-accent)] px-5 py-3 font-bold text-[var(--color-accent-contrast)] hover:bg-[var(--color-accent-hover)]">
               {ctaLabel}
             </Link>

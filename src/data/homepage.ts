@@ -88,7 +88,7 @@ export const adviceArticles = [
   {
     title: "What does a care assistant do?",
     description: "A practical look at the daily responsibilities and qualities that help people thrive in care work.",
-    href: "/care-careers",
+    href: "/care-careers#care-roles",
     image: "/images/caregiver-tablet.jpg",
     imageAlt: "Care worker helping an older woman use a tablet",
     imageCredit: "Andrea Piacquadio / Pexels",
@@ -96,7 +96,7 @@ export const adviceArticles = [
   {
     title: "Preparing for a care interview",
     description: "Simple ways to explain your experience, values and approach to person-centred support.",
-    href: "/care-careers",
+    href: "/recruitment-process",
     image: "/images/caregiver-home.jpg",
     imageAlt: "Caregiver spending time with an older woman at home",
     imageCredit: "Jsme MILA / Pexels",
@@ -104,7 +104,7 @@ export const adviceArticles = [
   {
     title: "Understanding care roles",
     description: "Compare common care roles and think about the setting that suits your next step.",
-    href: "/care-careers",
+    href: "/care-careers#skills-experience",
     image: "/images/caregiver-walk.jpg",
     imageAlt: "Care worker supporting an older woman during a walk",
     imageCredit: "Sofía Marquet / Pexels",

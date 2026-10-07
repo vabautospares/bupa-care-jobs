@@ -1,0 +1,57 @@
+export interface Faq {
+  question: string;
+  answer: string;
+}
+
+export const faqs: Faq[] = [
+  {
+    question: "What is Bupa Care Jobs?",
+    answer:
+      "Bupa Care Jobs is a platform where applicants can explore available care opportunities and apply for roles that match their experience and interests.",
+  },
+  {
+    question: "Who can apply?",
+    answer:
+      "The platform is available to people interested in available care opportunities, including applicants already in the UK and those exploring opportunities from overseas.",
+  },
+  {
+    question: "How do I find available care jobs?",
+    answer:
+      "Use the **Find Opportunities** page to search available jobs by job title, keyword or location. You can also use the available category and location filters.",
+  },
+  {
+    question: "How do I apply for a job?",
+    answer:
+      "Select an opportunity you are interested in, review the job details and select **Apply for this job**. Complete the application form, choose your recruitment support term, review the Terms & Conditions and submit your application.",
+  },
+  {
+    question: "What information do I need to provide?",
+    answer:
+      "You will be asked to provide personal, contact, employment preference and experience information. You should make sure the information you provide is accurate.",
+  },
+  {
+    question: "Do I need to upload my CV or certificates?",
+    answer:
+      "Supporting documents are not uploaded during the current application process. Supporting documents may be requested later.",
+  },
+  {
+    question: "What recruitment and sponsorship support terms are available?",
+    answer:
+      "Two recruitment and sponsorship support terms are available:\n\n**3-Year Recruitment & Sponsorship Support: £4,000 total company service fee**\n\n* Deposit (due before application review): £1,000\n* Remaining balance (instalments after employment starts): £3,000\n\n**5-Year Recruitment & Sponsorship Support: £6,000 total company service fee**\n\n* Deposit (due before application review): £1,000\n* Remaining balance (instalments after employment starts): £5,000\n\nThe company service fee covers recruitment coordination and Certificate of Sponsorship administration. UK government and third-party immigration costs are quoted separately before payment.\n\nA Certificate of Sponsorship does not guarantee employment or visa approval.",
+  },
+  {
+    question: "Is payment completed on the website?",
+    answer:
+      "No. Payment is not completed on the website. After submitting your application, our team will provide guidance on the next steps, including payment.",
+  },
+  {
+    question: "What happens after I submit my application?",
+    answer:
+      "You will receive a confirmation showing your application ID and selected support term. You can then follow up with our team on WhatsApp for guidance on the next steps.",
+  },
+  {
+    question: "Can I contact the team if I need help?",
+    answer:
+      "Yes. You can contact our team through WhatsApp for help with your application, the application process, your application details, support term information or next steps after submitting an application. If you have already submitted an application, please have your application ID available when contacting our team.",
+  },
+];

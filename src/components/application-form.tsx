@@ -41,15 +41,19 @@ export function ApplicationForm({ applicantTypeLabel }: { applicantTypeLabel?: s
   // Fetch work type options from the opportunities API
   useEffect(() => {
     fetch("/api/opportunities")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch opportunities");
+        return res.json();
+      })
       .then((data: { opportunities?: Array<{ employmentType: string }> }) => {
         if (data.opportunities && Array.isArray(data.opportunities)) {
           const types = [...new Set(data.opportunities.map((o) => o.employmentType).filter(Boolean))];
           setWorkTypeOptions(types);
+        } else {
+          setWorkTypeOptions(["Care home", "Home care", "Live-in care", "Hospital or clinical setting", "Not sure yet"]);
         }
       })
       .catch(() => {
-        // Fallback to defaults if API fails
         setWorkTypeOptions(["Care home", "Home care", "Live-in care", "Hospital or clinical setting", "Not sure yet"]);
       });
   }, []);
@@ -528,7 +532,6 @@ export function ApplicationForm({ applicantTypeLabel }: { applicantTypeLabel?: s
                     ))}
                   </ul>
                   <p className="mt-3 text-xs text-[var(--color-muted)]">{plan.externalCostsNote}</p>
-                  <p className="mt-2 text-xs text-[var(--color-danger)] font-medium">{plan.noGuaranteeNote}</p>
                 </div>
               </label>
             );

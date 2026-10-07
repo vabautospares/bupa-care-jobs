@@ -15,8 +15,7 @@ export const SERVICE_PLANS: ServicePlan[] = [
     ],
     externalCostsNote:
       "UK government and third-party immigration costs are quoted separately before payment.",
-    noGuaranteeNote:
-      "Deposit should be paid to process job offer letter, DBS check and COS",
+    noGuaranteeNote: "",
   },
   {
     id: "five-year",
@@ -32,8 +31,7 @@ export const SERVICE_PLANS: ServicePlan[] = [
     ],
     externalCostsNote:
       "UK government and third-party immigration costs are quoted separately before payment.",
-    noGuaranteeNote:
-      "Deposit should be paid to process job offer letter, DBS check and COS",
+    noGuaranteeNote: "",
   },
 ];
 

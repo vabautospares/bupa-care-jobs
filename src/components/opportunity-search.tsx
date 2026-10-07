@@ -6,12 +6,24 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "./button";
 import { jobCategories } from "@/data/homepage";
 
+const toCategorySlug = (value: string) => {
+  const match = jobCategories.find(
+    (item) =>
+      item.title.toLowerCase() === value.trim().toLowerCase() ||
+      item.href.endsWith(`category=${value.trim().toLowerCase()}`),
+  );
+
+  return match?.href.split("=")[1] ?? value.trim();
+};
+
 export function OpportunitySearch() {
   const searchParams = useSearchParams();
   const queryString = searchParams.toString();
   const initialKeyword = searchParams.get("keyword") ?? "";
   const initialLocation = searchParams.get("location") ?? "";
-  const initialCategory = searchParams.get("category") ?? "";
+  const initialCategory = toCategorySlug(
+    searchParams.get("category") ?? "",
+  );
   const [keyword, setKeyword] = useState(initialKeyword);
   const [location, setLocation] = useState(initialLocation);
   const [category, setCategory] = useState(initialCategory);
@@ -40,7 +52,9 @@ export function OpportunitySearch() {
     const form = new FormData(event.currentTarget);
     const trimmedKeyword = String(form.get("keyword") ?? "").trim();
     const trimmedLocation = String(form.get("location") ?? "").trim();
-    const selectedCategory = String(form.get("category") ?? "").trim();
+    const selectedCategory = toCategorySlug(
+      String(form.get("category") ?? "").trim(),
+    );
 
     if (!trimmedKeyword && !trimmedLocation && !selectedCategory) {
       setMessage("Enter a job title, keyword or location to start your search.");
@@ -113,7 +127,9 @@ export function OpportunitySearch() {
           >
             <option value="">All categories</option>
             {jobCategories.map((cat) => (
-              <option key={cat.title} value={cat.title}>
+              // Slugs keep one URL per category. Titles here created a second
+              // variant of every category URL that competed with the slug form.
+              <option key={cat.title} value={cat.href.split("=")[1] ?? cat.title}>
                 {cat.title}
               </option>
             ))}

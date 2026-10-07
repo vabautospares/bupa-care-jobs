@@ -21,14 +21,14 @@ test.describe('Navigation', () => {
     });
   }
 
-  test('Apply now button in header navigates to /apply', async ({ page }) => {
+  test('Apply now button in header navigates to eligibility', async ({ page }) => {
     await page.click('nav >> text=Apply now');
-    await expect(page).toHaveURL('/apply');
+    await expect(page).toHaveURL('/apply/eligibility');
   });
 
   test('footer navigation links work', async ({ page }) => {
     for (const link of navLinks) {
-      await page.click(`footer >> text=${link.label}`);
+      await page.click(`footer >> text="${link.label}"`);
       await expect(page).toHaveURL(new RegExp(link.href));
       await page.goto('/');
     }

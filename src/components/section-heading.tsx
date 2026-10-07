@@ -44,7 +44,7 @@ export function SectionHeading({
         </p>
       )}
       <HeadingTag
-        className={`mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl ${
+        className={`mt-3 text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight ${
           isDark ? "text-white" : "text-[var(--color-foreground)]"
         }`}
       >
@@ -52,7 +52,7 @@ export function SectionHeading({
       </HeadingTag>
       {description && (
         <p
-          className={`mt-4 text-lg leading-8 ${
+          className={`mt-4 text-xl leading-8 ${
             isDark ? "text-white/80" : "text-[var(--color-muted)]"
           }`}
         >

@@ -5,6 +5,7 @@ import { getContactConfig } from "@/lib/config";
 import { SERVICE_PLANS } from "@/lib/service-plans";
 import { ConfirmationContact, ConfirmationEmail } from "@/components/confirmation-contact";
 import { ApplicationPdfButton } from "@/components/application-pdf-button";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { createPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -67,7 +68,7 @@ function ConfirmationContent({
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-success)]/10 text-[var(--color-success)] mb-6">
             <SuccessIcon className="w-8 h-8" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-foreground)]">
+          <h2 className="mt-2 h2 text-[var(--color-foreground)]">
             Application received
           </h2>
           <p className="mt-2 text-[var(--color-muted)]">
@@ -102,62 +103,73 @@ function ConfirmationContent({
             <div className="card p-6">
               <h3 className="text-sm font-bold text-[var(--color-muted)] uppercase tracking-wide">Selected plan</h3>
               <p className="mt-2 text-lg font-semibold text-[var(--color-foreground)]">{plan.label}</p>
-              <dl className="mt-4 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <dt className="text-[var(--color-muted)]">Deposit (due before application review)</dt>
-                  <dd className="font-semibold text-[var(--color-foreground)]">£{plan.depositPence / 100}</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-[var(--color-muted)]">Remaining balance (instalments after employment starts)</dt>
-                  <dd className="font-semibold text-[var(--color-foreground)]">£{plan.balancePence / 100}</dd>
-                </div>
-                <div className="flex justify-between text-base font-bold pt-2 border-t border-[var(--color-border)]">
-                  <dt className="text-[var(--color-foreground)]">Total company service fee</dt>
-                  <dd className="text-[var(--color-accent)]">£{plan.pricePence / 100}</dd>
-                </div>
-              </dl>
-              <p className="mt-4 text-xs text-[var(--color-muted)]">{plan.externalCostsNote}</p>
-              <p className="mt-2 text-xs text-[var(--color-danger)] font-medium">{plan.noGuaranteeNote}</p>
+               <dl className="mt-4 space-y-2 text-sm">
+                 <div className="flex justify-between">
+                   <dt className="text-[var(--color-muted)]">Remaining balance (instalments after employment starts)</dt>
+                   <dd className="font-semibold text-[var(--color-foreground)]">£{plan.balancePence / 100}</dd>
+                 </div>
+                 <div className="flex justify-between text-base font-bold pt-2 border-t border-[var(--color-border)]">
+                   <dt className="text-[var(--color-foreground)]">Total company service fee</dt>
+                   <dd className="text-[var(--color-accent)]">£{plan.pricePence / 100}</dd>
+                 </div>
+               </dl>
+               <p className="mt-4 text-xs text-[var(--color-muted)]">{plan.externalCostsNote}</p>
             </div>
           )}
         </div>
 
-        <div className="mt-10 card p-6 border-[var(--color-border)]">
-          <h3 className="text-lg font-bold text-[var(--color-foreground)] mb-3">
-            Payment clarification
+        <div className="mt-10 card p-6 sm:p-8 border-[var(--color-border)]">
+          <h3 className="h3 text-[var(--color-foreground)] mb-3">
+            Next Steps &amp; Support
           </h3>
           <p className="text-[var(--color-muted)]">
-            Payment has not been completed on the website. Our team will guide you
-            through the next steps.
+            Timescales for reviewing applications will differ between regions, but you will always receive a response to your application.
+            The recruitment process itself will vary per role and region, but you will be updated along the way via phone and email
+            (so please look out for these!). To view what stage of the process your application is currently at, you can also log in to your account.
           </p>
-        </div>
+          <p className="mt-4 text-[var(--color-muted)]">
+            If you are invited to an interview, a member of the resourcing team will be able to advise you on what to expect.
+            This will vary in region, but will likely include an initial phone or digital interview, followed by one or more of the
+            following forms of assessment:
+          </p>
+          <ul className="mt-3 space-y-1 text-sm text-[var(--color-muted)] list-disc list-inside">
+            <li>Core competency interview</li>
+            <li>Technical/function specific interview</li>
+            <li>Online profiling assessment</li>
+            <li>Presentation, written task, role play</li>
+            <li>Assessment centre</li>
+          </ul>
+          <p className="mt-4 text-[var(--color-muted)]">
+            If your application is successful and you’re invited to join the team, the resourcing team will guide you through your
+            onboarding journey.
+          </p>
 
-        <div id="whatsapp-followup" className="mt-10 card p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h3 className="text-lg font-bold text-[var(--color-foreground)]">
-                Follow up on your application
-              </h3>
-              <p className="mt-2 text-[var(--color-muted)]">
-                Contact our team on WhatsApp to follow up on your application and receive guidance on the next steps.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <div className="mt-6">
+            <h4 className="h4 text-[var(--color-foreground)] mb-2">
+              Send your required documents
+            </h4>
+            <p className="text-sm text-[var(--color-muted)] mb-4">
+              Please send the following documents for your job application through email:
+            </p>
+            <ul className="mt-2 space-y-1 text-sm text-[var(--color-muted)] list-disc list-inside">
+              <li>Updated CV</li>
+              <li>Valid ID/passport</li>
+              <li>Right-to-work documentation</li>
+              <li>Relevant care/healthcare certificates</li>
+              <li>Professional registration (where applicable)</li>
+              <li>Employment/reference details</li>
+              <li>DBS/background-check information (where required) if available</li>
+            </ul>
+            <p className="mt-4 text-sm text-[var(--color-muted)]">
+              Our team will guide you through the next steps and answer any questions.
+            </p>
+            <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {whatsAppLink && (
-                <ConfirmationContact whatsAppLink={whatsAppLink} />
+                <WhatsAppButton href={whatsAppLink} label="Follow up on WhatsApp" location="confirmation_page" />
               )}
-              {!whatsAppLink && (
-                <Alert tone="warning" title="WhatsApp not configured" className="w-full">
-                  <ConfirmationContact whatsAppLink={null} />
-                </Alert>
-              )}
+              <ConfirmationEmail contactEmail={contactEmail} asButton />
             </div>
           </div>
-          <p className="mt-6 text-sm text-[var(--color-muted)] text-center sm:text-left">
-            Alternatively, you can email us at{" "}
-            <ConfirmationEmail contactEmail={contactEmail} />
-            .
-          </p>
         </div>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">

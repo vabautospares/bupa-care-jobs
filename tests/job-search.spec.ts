@@ -62,12 +62,23 @@ test.describe('Job search flow', () => {
     await expect(page).toHaveURL('/find-opportunities');
   });
 
-  test('Apply now button on result cards links to /apply with role param', async ({ page }) => {
+  test('Apply now button on result cards links to eligibility with role param', async ({ page }) => {
     await page.fill('input[name="keyword"]', 'Care Assistant');
     await page.click('button[type="submit"]');
+    await page.waitForURL(/\/find-opportunities\?keyword=Care\+Assistant/);
+    await expect(page.locator('[aria-label="Active filters"]')).toBeVisible();
 
-    await page.waitForSelector('text=Apply now', { timeout: 10000 });
-    await page.click('text=Apply now');
-    await expect(page).toHaveURL(/\/apply\?role=/);
+    const applyLink = page.locator('article >> text=Apply now').first();
+    await applyLink.scrollIntoViewIfNeeded();
+    await applyLink.evaluate((el) => {
+      const offsetTop = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: Math.max(0, offsetTop - window.innerHeight / 2),
+        behavior: "instant",
+      });
+    });
+    await applyLink.focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/\/apply\/eligibility\?role=/);
   });
 });
