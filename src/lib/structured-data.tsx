@@ -186,7 +186,7 @@ const jobLocation = (location: string) => {
 
 export function jobPostingSchema(
   opportunity: Opportunity,
-  { datePosted, validThrough }: { datePosted: string; validThrough: string },
+  { datePosted, validThrough }: { datePosted: string; validThrough?: string },
 ) {
   return {
     "@context": SCHEMA_CONTEXT,
@@ -194,7 +194,7 @@ export function jobPostingSchema(
     title: opportunity.title,
     description: opportunity.description,
     datePosted,
-    validThrough,
+    ...(validThrough ? { validThrough } : {}),
     employmentType: toEmploymentType(opportunity.employmentType),
     hiringOrganization: { "@id": `${siteUrl}/#organization` },
     jobLocation: jobLocation(opportunity.location),

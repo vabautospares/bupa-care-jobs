@@ -134,14 +134,7 @@ export default async function CareJobPage({
     )
     .slice(0, 3);
 
-  // getOpportunities() resolves both dates from the sheet's own modified time,
-  // so they are stable between renders. The constant is only a guard for data
-  // that predates the column.
-  const FALLBACK_POSTING_DATE = "2026-01-01T00:00:00.000Z";
-  const { datePosted, validThrough } = getPostingDates(
-    opportunity,
-    new Date(FALLBACK_POSTING_DATE),
-  );
+  const { datePosted, validThrough } = getPostingDates(opportunity, new Date());
 
   return (
     <>

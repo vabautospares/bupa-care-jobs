@@ -107,9 +107,13 @@ test.describe('Job pages', () => {
 
     expect(posting).toBeTruthy();
     expect(posting.title).toBe('Care Assistant');
-    // Google requires these three fields for a job rich result.
+    // datePosted is required for a Google JobPosting rich result.
     expect(posting.datePosted).toBeTruthy();
-    expect(posting.validThrough).toBeTruthy();
+    // validThrough is optional — only emitted when the source carries a
+    // future expiry date. When present it must not be expired.
+    if (posting.validThrough) {
+      expect(new Date(posting.validThrough).getTime()).toBeGreaterThan(Date.now());
+    }
     expect(posting.employmentType).toBe('FULL_TIME');
     expect(posting.hiringOrganization['@id']).toBe(
       `https://${PRODUCTION_HOST}/#organization`,

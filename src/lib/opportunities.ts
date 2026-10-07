@@ -175,11 +175,6 @@ export interface OpportunityDirectoryEntry {
   slug: string;
 }
 
-const POSTING_VALIDITY_DAYS = 60;
-
-const addDays = (date: Date, days: number) =>
-  new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
-
 const toIsoDate = (value?: string) => {
   const trimmed = value?.trim();
 
@@ -192,44 +187,25 @@ const toIsoDate = (value?: string) => {
   return Number.isNaN(parsed.getTime()) ? undefined : parsed.toISOString();
 }
 
-/**
- * Google requires datePosted and validThrough on JobPosting. When the source
- * carries neither, fall back to a single timestamp for the whole batch rather
- * than `new Date()` per row, so a batch of jobs does not drift on every render.
- */
-const resolvePostingDates = (
-  opportunity: Opportunity,
-  fallback: Date,
-): Opportunity => {
-  if (opportunity.datePosted && opportunity.validThrough) {
-    return opportunity;
-  }
-
-  const posted = opportunity.datePosted
-    ? new Date(opportunity.datePosted)
-    : fallback;
-
-  return {
-    ...opportunity,
-    datePosted: posted.toISOString(),
-    validThrough: (
-      opportunity.validThrough
-        ? new Date(opportunity.validThrough)
-        : addDays(posted, POSTING_VALIDITY_DAYS)
-    ).toISOString(),
-  };
-}
-
 export function getPostingDates(
   opportunity: Opportunity,
   fallback: Date,
-): { datePosted: string; validThrough: string } {
-  const resolved = resolvePostingDates(opportunity, fallback);
+): { datePosted: string; validThrough?: string } {
+  const datePosted = opportunity.datePosted
+    ? toIsoDate(opportunity.datePosted) ?? fallback.toISOString()
+    : fallback.toISOString();
 
-  return {
-    datePosted: resolved.datePosted ?? fallback.toISOString(),
-    validThrough: resolved.validThrough ?? fallback.toISOString(),
-  };
+  // Only emit validThrough when the source provides a future expiry date.
+  // An expired or missing validThrough on an active vacancy must be omitted
+  // rather than emitting a false past date that would hide the job from Google.
+  const validThrough = opportunity.validThrough
+    ? toIsoDate(opportunity.validThrough)
+    : undefined;
+
+  const hasFutureExpiry =
+    validThrough !== undefined && new Date(validThrough).getTime() > Date.now();
+
+  return { datePosted, validThrough: hasFutureExpiry ? validThrough : undefined };
 }
 
 /**
