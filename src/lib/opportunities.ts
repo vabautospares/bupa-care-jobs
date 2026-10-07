@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { opportunitySlug } from "@/lib/seo";
 import type { Opportunity } from "@/lib/types";
 
 export class OpportunitiesNotConfiguredError extends Error {
@@ -157,4 +158,89 @@ export async function getOpportunities(
     console.error("[getOpportunities] error:", error);
     throw new OpportunitiesUnavailableError();
   }
+}
+
+export interface OpportunityDirectoryEntry {
+  opportunity: Opportunity;
+  slug: string;
+}
+
+const POSTING_VALIDITY_DAYS = 60;
+
+const addDays = (date: Date, days: number) =>
+  new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+
+const toIsoDate = (value?: string) => {
+  const trimmed = value?.trim();
+
+  if (!trimmed) {
+    return undefined;
+  }
+
+  const parsed = new Date(trimmed);
+
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed.toISOString();
+}
+
+/**
+ * Google requires datePosted and validThrough on JobPosting. When the source
+ * carries neither, fall back to a single timestamp for the whole batch rather
+ * than `new Date()` per row, so a batch of jobs does not drift on every render.
+ */
+const resolvePostingDates = (
+  opportunity: Opportunity,
+  fallback: Date,
+): Opportunity => {
+  if (opportunity.datePosted && opportunity.validThrough) {
+    return opportunity;
+  }
+
+  const posted = opportunity.datePosted
+    ? new Date(opportunity.datePosted)
+    : fallback;
+
+  return {
+    ...opportunity,
+    datePosted: posted.toISOString(),
+    validThrough: (
+      opportunity.validThrough
+        ? new Date(opportunity.validThrough)
+        : addDays(posted, POSTING_VALIDITY_DAYS)
+    ).toISOString(),
+  };
+}
+
+export function getPostingDates(
+  opportunity: Opportunity,
+  fallback: Date,
+): { datePosted: string; validThrough: string } {
+  const resolved = resolvePostingDates(opportunity, fallback);
+
+  return {
+    datePosted: resolved.datePosted ?? fallback.toISOString(),
+    validThrough: resolved.validThrough ?? fallback.toISOString(),
+  };
+}
+
+/**
+ * Single source of truth for job URLs. The job pages, the job index and the
+ * sitemap all derive slugs from here, so a URL cannot exist in one place and
+ * be missing from another.
+ */
+export async function getOpportunityDirectory(
+  filters: OpportunityFilters = {},
+): Promise<OpportunityDirectoryEntry[]> {
+  const opportunities = await getOpportunities(filters);
+  const used = new Map<string, number>();
+
+  return opportunities.map((opportunity) => {
+    const base = opportunitySlug(opportunity);
+    const count = used.get(base) ?? 0;
+    used.set(base, count + 1);
+
+    return {
+      opportunity,
+      slug: count === 0 ? base : `${base}-${count + 1}`,
+    };
+  });
 }
