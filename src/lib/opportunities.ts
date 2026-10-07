@@ -1,4 +1,3 @@
-import { google } from "googleapis";
 import { opportunitySlug } from "@/lib/seo";
 import type { Opportunity } from "@/lib/types";
 
@@ -22,12 +21,6 @@ export interface OpportunityFilters {
   category?: string;
 }
 
-const normalizeHeader = (value: string) =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/[\s_-]+/g, "");
-
 const normalizeValue = (value: string) => value.trim().toLowerCase();
 
 const parseBoolean = (value?: string) => {
@@ -44,46 +37,6 @@ const slugify = (value: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-
-const getCellValue = (
-  row: string[],
-  headers: string[],
-  names: string[],
-) => {
-  const index = headers.findIndex((header) => names.includes(normalizeHeader(header)));
-  return index >= 0 ? (row[index]?.trim() ?? "") : "";
-};
-
-const toOpportunity = (row: string[], headers: string[]): Opportunity | null => {
-  const title = getCellValue(row, headers, ["title", "role", "jobtitle"]);
-  const location = getCellValue(row, headers, ["location"]);
-  const description = getCellValue(row, headers, ["description", "summary"]);
-  const category = getCellValue(row, headers, ["category", "rolecategory"]);
-  const employmentType = getCellValue(row, headers, [
-    "employmenttype",
-    "worktype",
-  ]);
-  const availability = getCellValue(row, headers, ["availability", "schedule"]);
-  const salary = getCellValue(row, headers, ["salary", "pay", "payrate"]);
-  const id =
-    getCellValue(row, headers, ["id", "opportunityid"]) || slugify(title);
-
-  if (!title || !location) {
-    return null;
-  }
-
-  return {
-    id,
-    title,
-    location,
-    description: description || "Read the role details and continue to apply for support with the next steps.",
-    category: category || "Care roles",
-    employmentType: employmentType || "Not specified",
-    availability: availability || "Not specified",
-    ...(salary ? { salary } : {}),
-    active: parseBoolean(getCellValue(row, headers, ["active", "status"])),
-  };
-};
 
 const matchesFilter = (value: string, filter?: string) => {
   if (!filter) {
@@ -104,38 +57,92 @@ const matchesCategory = (opportunity: Opportunity, category?: string) => {
   );
 };
 
+type RawOpportunity = {
+  id?: string;
+  title?: string;
+  location?: string;
+  description?: string;
+  category?: string;
+  employmentType?: string;
+  availability?: string;
+  salary?: string;
+  datePosted?: string;
+  validThrough?: string;
+  active?: boolean | string;
+};
+
+const normalizeOpportunity = (raw: RawOpportunity): Opportunity | null => {
+  const title = (raw.title ?? "").trim();
+  const location = (raw.location ?? "").trim();
+  const description = (raw.description ?? "").trim();
+  const category = (raw.category ?? "").trim();
+  const employmentType = (raw.employmentType ?? "").trim();
+  const availability = (raw.availability ?? "").trim();
+  const salary = (raw.salary ?? "").trim();
+  const datePosted = (raw.datePosted ?? "").trim();
+  const validThrough = (raw.validThrough ?? "").trim();
+  const id = (raw.id ?? "").trim() || slugify(title);
+  const active =
+    typeof raw.active === "boolean"
+      ? raw.active
+      : parseBoolean(typeof raw.active === "string" ? raw.active : "");
+
+  if (!title || !location) {
+    return null;
+  }
+
+  return {
+    id,
+    title,
+    location,
+    description: description || "Read the role details and continue to apply for support with the next steps.",
+    category: category || "Care roles",
+    employmentType: employmentType || "Not specified",
+    availability: availability || "Not specified",
+    ...(salary ? { salary } : {}),
+    ...(datePosted ? { datePosted } : {}),
+    ...(validThrough ? { validThrough } : {}),
+    active,
+  };
+};
+
 export async function getOpportunities(
   filters: OpportunityFilters = {},
 ): Promise<Opportunity[]> {
-  const spreadsheetId = process.env.GOOGLE_OPPORTUNITIES_SPREADSHEET_ID?.trim();
-  const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.trim();
+  const appsScriptUrl = process.env.APPS_SCRIPT_URL?.trim();
 
-  if (!spreadsheetId || !serviceAccountEmail || !privateKey) {
+  if (!appsScriptUrl) {
     throw new OpportunitiesNotConfiguredError();
   }
 
-  try {
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: serviceAccountEmail,
-        private_key: privateKey.replace(/\\n/g, "\n"),
-      },
-      scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-    });
-    const sheets = google.sheets({ version: "v4", auth });
-    const range =
-      process.env.GOOGLE_OPPORTUNITIES_RANGE || "Opportunities!A1:H1";
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range,
-    });
-    const rows = response.data.values ?? [];
-    const [headerRow, ...dataRows] = rows;
-    const headers = (headerRow ?? []).map(String);
+  const query = new URLSearchParams();
+  if (filters.keyword) query.set("keyword", filters.keyword);
+  if (filters.location) query.set("location", filters.location);
+  if (filters.category) query.set("category", filters.category);
 
-    return dataRows
-      .map((row) => toOpportunity(row.map(String), headers))
+  const url = `${appsScriptUrl}${query.toString() ? `?${query.toString()}` : ""}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+
+    const body = await response.json();
+
+    if (!response.ok || body?.ok === false || body?.error) {
+      const message =
+        typeof body?.error === "string"
+          ? body.error
+          : "Opportunity search is temporarily unavailable.";
+      console.error("[getOpportunities] error:", message);
+      throw new OpportunitiesUnavailableError();
+    }
+
+    const rawOpportunities: RawOpportunity[] = body?.opportunities ?? [];
+
+    return rawOpportunities
+      .map(normalizeOpportunity)
       .filter((opportunity): opportunity is Opportunity => Boolean(opportunity))
       .filter((opportunity) => opportunity.active)
       .filter(
@@ -151,7 +158,10 @@ export async function getOpportunities(
       .filter((opportunity) => matchesCategory(opportunity, filters.category))
       .sort((a, b) => a.title.localeCompare(b.title));
   } catch (error) {
-    if (error instanceof OpportunitiesNotConfiguredError) {
+    if (
+      error instanceof OpportunitiesNotConfiguredError ||
+      error instanceof OpportunitiesUnavailableError
+    ) {
       throw error;
     }
 
